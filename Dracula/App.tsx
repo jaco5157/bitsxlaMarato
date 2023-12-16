@@ -42,10 +42,10 @@ const App = () => {
         <Stack.Screen name="Create" component={CreateScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Calendar" component={CalendarScreen} />
-        <Stack.Screen name="PBACOneScreen" component={PBACOneScreen} initialParams={answers="test"}/>
-        <Stack.Screen name="PBACTwoScreen" component={PBACTwoScreen} />
-        <Stack.Screen name="PBACThreeScreen" component={PBACThreeScreen} />
-        <Stack.Screen name="PBACFourScreen" component={PBACFourScreen} />
+        <Stack.Screen name="PBACOneScreen" component={PBACOneScreen} />
+        <Stack.Screen name="PBACTwoScreen" component={PBACTwoScreen} initialParams={cumulativeScore = 0} />
+        <Stack.Screen name="PBACThreeScreen" component={PBACThreeScreen} initialParams={cumulativeScore} />
+        <Stack.Screen name="PBACFourScreen" component={PBACFourScreen} initialParams={cumulativeScore} />
 
         {questions.map((question, index) => (
           <Stack.Screen
