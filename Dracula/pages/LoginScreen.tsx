@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import styles from './Styles';
 
-const LoginPage = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
 
   const handleLogin = () => {
@@ -13,7 +14,7 @@ const LoginPage = ({ navigation }) => {
       <Text>This is the login page, please enter your username.</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter your username"
+        placeholder="Username"
         value={username}
         onChangeText={(text) => setUsername(text)}
       />
@@ -24,24 +25,4 @@ const LoginPage = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 20,
-    padding: 10,
-    width: '100%',
-  },
-  buttonStyle: {
-    width: '80%',
-  },
-});
-
-export default LoginPage;
+export default LoginScreen;
