@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import styles from './pages/Styles';
+import styles from './Styles';
 
 const ProfileScreen = ({navigation, route}) => {
-  return <Text>This is {route.params.username}'s profile</Text>;
+  const handleClick = () => {
+      navigation.navigate('Question1');
+  };
+  return (
+    <View>
+        <Text style={styles.container}>This is {route.params.username}'s profile</Text>
+        <View style={styles.buttonStyle}>
+            <Button title="Take the daily questionaire" onPress={handleClick} />
+        </View>
+    </View>
+  );
 };
 
 export default ProfileScreen;
