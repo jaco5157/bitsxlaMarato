@@ -9,7 +9,7 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
 
   const handleLogin = () => {
-    navigation.navigate('Profile', { username });
+    navigation.navigate('Calendar', { username });
   };
 
   const customStyles = StyleSheet.create({
