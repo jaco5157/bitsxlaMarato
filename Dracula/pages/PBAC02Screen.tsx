@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
 import styles, {colors} from './Styles';
-import { product, cumulativeScore } from './PBACOneScreen';
+import { product } from './PBACOneScreen';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
@@ -23,9 +23,9 @@ import Svg, {Path} from 'react-native-svg'
 const PBACTwoScreen = ({ route, navigation }) => {
     const PBAC_question2 = ['What is the blood intensity?'];
     const currentQuestionIndex = 2;
-    const cumulativeScore = 0;
+    let cumulativeScore = 0;
     const [score, setScore] = useState(null);
-    const {product, cumulativeScore} = route.params;
+    const {product} = route.params;
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
@@ -173,7 +173,6 @@ const PBACTwoScreen = ({ route, navigation }) => {
                                  <CustomText style={{color: "white"}}> MEDIUM </CustomText>
                              </Pressable>
 
-//                            Might cause error here <----------------------------------------------------
                               <Pressable onPress={ () => {
                                       handleHigh();
                                       navigation.navigate('PBACThreeScreen');
@@ -182,6 +181,7 @@ const PBACTwoScreen = ({ route, navigation }) => {
                               </Pressable>
                      </View>
                  </View>
+                 {/*
 //                  <View style={customStyles.progressBar}>
 //                      <View style={customStyles.line}></View>
 //                      {[...Array(4)].map((x, i) =>
@@ -190,14 +190,12 @@ const PBACTwoScreen = ({ route, navigation }) => {
 //                          </Svg>
 //                        )}
 //                  </View>
+*/}
              </View>
            </View>
        </View>
      </View>
     );
- };
-
-
  };
 
 

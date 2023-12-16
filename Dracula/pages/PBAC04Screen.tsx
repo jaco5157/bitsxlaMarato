@@ -4,7 +4,6 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
-import cumulativeScore from './PBACThreeScreen';
 
     {/*
     SCORES
@@ -159,6 +158,7 @@ const PBACFourScreen = ({ route, navigation }) => {
                          </Pressable>
                      </View>
                  </View>
+                 {/*
 //                  <View style={customStyles.progressBar}>
 //                      <View style={customStyles.line}></View>
 //                      {[...Array(4)].map((x, i) =>
@@ -167,13 +167,12 @@ const PBACFourScreen = ({ route, navigation }) => {
 //                          </Svg>
 //                        )}
 //                  </View>
+*/}
              </View>
            </View>
        </View>
      </View>
     );
  };
-
-};
 
 export default PBACFourScreen;

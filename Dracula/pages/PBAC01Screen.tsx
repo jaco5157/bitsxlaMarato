@@ -163,14 +163,16 @@ const PBACOneScreen = ({ route, navigation }) => {
                          </Pressable>
                      </View>
                  </View>
-//                  <View style={customStyles.progressBar}>
-//                      <View style={customStyles.line}></View>
-//                      {[...Array(4)].map((x, i) =>
-//                          <Svg style={customStyles.step} viewBox="0 0 512 512">
-//                              <Path d={progressSvgPath(i)}/>
-//                          </Svg>
-//                        )}
-//                  </View>
+                 {/*
+                 <View style={customStyles.progressBar}>
+                     <View style={customStyles.line}></View>
+                     {[...Array(4)].map((x, i) =>
+                         <Svg style={customStyles.step} viewBox="0 0 512 512">
+                             <Path d={progressSvgPath(i)}/>
+                         </Svg>
+                       )}
+                 </View>
+*/}
              </View>
            </View>
        </View>

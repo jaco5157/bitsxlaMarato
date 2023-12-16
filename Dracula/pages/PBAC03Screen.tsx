@@ -4,7 +4,6 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
-import cumulativeScore from './PBACTwoScreen';
 
     {/*
     SCORES
@@ -159,8 +158,7 @@ const PBACThreeScreen = ({ route, navigation }) => {
                              }} style={{...customStyles.answer, backgroundColor: colors.black}}>
                                  <CustomText style={{color: "white"}}> 1P CLOT </CustomText>
                              </Pressable>
-
-//                            Might cause error here <----------------------------------------------------
+*
                               <Pressable onPress={ () => {
                                       handleClot50p();
                                       navigation.navigate('PBACFourScreen');
@@ -169,6 +167,7 @@ const PBACThreeScreen = ({ route, navigation }) => {
                               </Pressable>
                      </View>
                  </View>
+                 {/*
 //                  <View style={customStyles.progressBar}>
 //                      <View style={customStyles.line}></View>
 //                      {[...Array(4)].map((x, i) =>
@@ -177,14 +176,12 @@ const PBACThreeScreen = ({ route, navigation }) => {
 //                          </Svg>
 //                        )}
 //                  </View>
+*/}
              </View>
            </View>
        </View>
      </View>
     );
  };
-
-
-};
 
 export default PBACThreeScreen;
