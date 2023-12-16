@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import styles from './Styles';
-import product, cumulativeScore from './PBAC01Screen';
+import { product, cumulativeScore } from './PBAC01Screen';
 
     {/*
     SCORES
@@ -17,7 +17,7 @@ import product, cumulativeScore from './PBAC01Screen';
     flooding      = 5
     */}
 
-const PBACScoreScreen = ({ route, navigation }) => {
+const PBACTwoScreen = ({ route, navigation }) => {
     const PBAC_question2 = ['What is the blood intensity?'];
     const currentQuestionIndex = 2;
     const cumulativeScore = 0;
@@ -75,6 +75,7 @@ const PBACScoreScreen = ({ route, navigation }) => {
       </View>
     </View>
    );
+};
 
 
-export default PBAC02Screen;
+export default PBACTwoScreen;

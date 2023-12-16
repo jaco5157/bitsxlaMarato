@@ -17,7 +17,7 @@ import cumulativeScore from './PBAC02Screen';
     flooding      = 5
     */}
 
-const PBACScoreScreen = ({ route, navigation }) => {
+const PBACThreeScreen = ({ route, navigation }) => {
     const PBAC_question3 = ['Did you have any blood clots, and if so, what size?'];
     const currentQuestionIndex = 3;
     const [score, setScore] = useState("");
@@ -72,4 +72,4 @@ const PBACScoreScreen = ({ route, navigation }) => {
 
 };
 
-export default PBAC03Screen;
+export default PBACThreeScreen;

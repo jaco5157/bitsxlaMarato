@@ -16,7 +16,7 @@ import styles from './Styles';
     flooding      = 5
     */}
 
-const PBACScoreScreen = ({ route, navigation }) => {
+const PBACOneScreen = ({ route, navigation }) => {
     const PBAC_question1 = ['Choose product type:'];
     const currentQuestionIndex = 1;
     const [product, setProduct] = useState("");
@@ -24,6 +24,7 @@ const PBACScoreScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
+    console.log(answers)
     console.log('Action on index:', currentQuestionIndex, 'Product:', product);
   }, [product]);
 
@@ -60,5 +61,6 @@ const PBACScoreScreen = ({ route, navigation }) => {
       </View>
     </View>
    );
+ };
 
-export default PBAC01Screen;
+export default PBACOneScreen;
