@@ -8,10 +8,10 @@ import CreateScreen from './pages/CreateScreen';
 import ProfileScreen from './pages/ProfileScreen';
 import QuestionScreen from './pages/QuestionScreen';
 import CalendarScreen from './pages/CalendarScreen';
-import PBAC01Screen from './pages/PBAC01Screen';
-import PBAC02Screen from './pages/PBAC02Screen';
-import PBAC03Screen from './pages/PBAC03Screen';
-import PBAC04Screen from './pages/PBAC04Screen';
+import PBACOneScreen from './pages/PBAC01Screen';
+import PBACTwoScreen from './pages/PBAC02Screen';
+import PBACThreeScreen from './pages/PBAC03Screen';
+import PBACFourScreen from './pages/PBAC04Screen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -42,10 +42,10 @@ const App = () => {
         <Stack.Screen name="Create" component={CreateScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Calendar" component={CalendarScreen} />
-        <Stack.Screen name="PBAC01Screen" component={PBAC01Screen} />
-        <Stack.Screen name="PBAC02Screen" component={PBAC02Screen} />
-        <Stack.Screen name="PBAC03Screen" component={PBAC03Screen} />
-        <Stack.Screen name="PBAC04Screen" component={PBAC04Screen} />
+        <Stack.Screen name="PBACOneScreen" component={PBACOneScreen} initialParams={answers="test"}/>
+        <Stack.Screen name="PBACTwoScreen" component={PBACTwoScreen} />
+        <Stack.Screen name="PBACThreeScreen" component={PBACThreeScreen} />
+        <Stack.Screen name="PBACFourScreen" component={PBACFourScreen} />
 
         {questions.map((question, index) => (
           <Stack.Screen
