@@ -4,12 +4,16 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import BottomWave from '../components/BottomWave'
 import CustomText from '../components/CustomText'
+import {useStorage} from '../hooks/useStorage'
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
+    const [currentUser, setCurrentUser, retrievedFromStorage] = useStorage({key: 'DRACULA:current-user'});
 
-  const handleLogin = () => {
-    navigation.navigate('Profile', { username });
+  const handleLogin = async () => {
+    if (!username) return;
+    await setCurrentUser(username);
+    navigation.navigate('Profile');
   };
 
   const customStyles = StyleSheet.create({
@@ -29,7 +33,7 @@ const LoginScreen = ({ navigation }) => {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        paddingTop: 110,
+        paddingTop: 90,
         gap: 10
       },
       actions: {
@@ -62,7 +66,7 @@ const LoginScreen = ({ navigation }) => {
           <View style={customStyles.container}>
           <TopWave/>
             <View style={customStyles.actions}>
-              <CustomText style={{fontSize: 20}}>Login</CustomText>
+              <CustomText style={{fontSize: 20, marginBottom: 20}}>Login</CustomText>
                 <TextInput
                     style={styles.input}
                     placeholder="Username"

@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
 import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
+import {useStorage} from '../hooks/useStorage'
 
 
 const ProfileScreen = ({navigation, route}) => {
   const handleClick = () => {
       navigation.navigate('Question1');
   };
+
+  const [currentUser, setCurrentUser, retrievedFromStorage] = useStorage({
+    key: 'DRACULA:current-user',
+    initialValue: '',
+  });
+
+  useEffect(() => console.log(currentUser), [retrievedFromStorage])
 
   const customStyles = StyleSheet.create({
         header: {
@@ -64,10 +72,10 @@ const ProfileScreen = ({navigation, route}) => {
               <TopWave/>
               <View style={customStyles.actions}>
                   <View>
-                      <CustomText style={{textAlign: "center"}}>Hey <CustomText style={styles.highlight}>Paola</CustomText>!</CustomText>
+                      <CustomText style={{textAlign: "center"}}>Hey <CustomText style={styles.highlight}>{retrievedFromStorage}</CustomText>!</CustomText>
                       <CustomText style={{fontFamily: "FiraSans-Light", textAlign: "center"}}>Ready to get to know your cycle better?</CustomText>
                   </View>
-                  <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%", paddingTop: 25, paddingBottom: 25}} onPress={handleClick}>
+                  <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%", paddingTop: 25, paddingBottom: 25}} onPress={() => navigation.navigate("Calendar")}>
                     <CustomText style={{color: colors.white}}>My period has started</CustomText>
                   </Pressable>
                   <View  style={{marginTop: 50}}>

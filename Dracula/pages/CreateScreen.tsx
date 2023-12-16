@@ -30,7 +30,7 @@ const CreateScreen = ({ navigation }) => {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          paddingTop: 110,
+          paddingTop: 90,
           gap: 10
         },
         actions: {
@@ -63,7 +63,7 @@ const CreateScreen = ({ navigation }) => {
             <View style={customStyles.container}>
             <TopWave/>
               <View style={customStyles.actions}>
-                  <CustomText style={{fontSize: 20}}>Register</CustomText>
+                  <CustomText style={{fontSize: 20, marginBottom: 20}}>Register</CustomText>
                   <TextInput
                       style={styles.input}
                       placeholder="Username"
