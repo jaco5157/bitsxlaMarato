@@ -56,21 +56,11 @@ const QuestionScreen = ({ route, navigation }) => {
   }, [answer]);
 
 
-/*
   const submitAnswersToApi = (allAnswers) => {
-      const connection = mysql.createConnection({
-            host: 'bitsxlamarato-bitsxlamarato.a.aivencloud.com:20361',
-            user: 'avnadmin',
-            password: 'AVNS_rDXztx4v3QSHKXauK0f',
-            database: 'defaultdb',
-          });
-
-
       // Submit answers to the API using the collected answers
       console.log('Submitted Answers:', allAnswers);
       // You may also navigate to another screen or perform other actions here
   };
-*/
 
     const progressSvgPath = (i) => {
         if (i < currentQuestionIndex)
