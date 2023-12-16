@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     },
     highlight: {
       fontWeight: '500',
+      color: primary
     },
     input: {
       paddingLeft: 20,
