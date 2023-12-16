@@ -98,7 +98,7 @@ const QuestionScreen = ({ route, navigation }) => {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        paddingTop: 110,
+        paddingTop: 90,
         gap: 10,
         transform: [
             {
@@ -117,10 +117,10 @@ const QuestionScreen = ({ route, navigation }) => {
       questionsContainer: {
         display: "flex",
         flexDirection: "column",
-        gap: 20,
+        gap: 30,
         flexGrow: 1,
         justifyContent: "center",
-        paddingBottom: 50
+        paddingBottom: 100
       },
       answers: {
         display: "flex",
@@ -132,18 +132,18 @@ const QuestionScreen = ({ route, navigation }) => {
       answer: {
         borderRadius: 50,
         color: "white",
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       },
       bloodDrop: {
         position: 'absolute',
-        bottom: -35,
-        left: -6,
-        width: 70,
-        height: 70
+        bottom: -42,
+        left: -5,
+        width: 90,
+        height: 90
       },
       progressBar: {
         display: "flex",
@@ -182,13 +182,13 @@ const QuestionScreen = ({ route, navigation }) => {
                 </TouchableWithoutFeedback>
               <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
             </View>
-              <CustomText style={{paddingRight: 10}}>Hola Paola!</CustomText>
           </View>
           <Animated.View style={customStyles.container}>
             <TopWave/>
+            <CustomText style={{color:colors.primary, fontFamily:"FiraSans-Bold", fontSize:22}}>End of cycle - CHECKUP</CustomText>
             <View style={customStyles.actions}>
                 <View style={customStyles.questionsContainer}>
-                    <CustomText style={{textAlign: "center"}}>{question}</CustomText>
+                    <CustomText style={{textAlign: "center", fontSize:20}}>{question}</CustomText>
                     <View style={customStyles.answers}>
                         <View style={{position: 'relative'}}>
                             <Pressable onPress={handleYes} style={{...customStyles.answer, backgroundColor: colors.primary}}>
