@@ -1,11 +1,5 @@
-import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import mysql from 'mysql2';
-import styles from './Styles';
-=======
-import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
->>>>>>> origin/feat/react-app
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Image, Pressable, TouchableWithoutFeedback, Animated } from 'react-native';
 import questions from './Questions';
 import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
@@ -16,7 +10,18 @@ import Svg, {Path} from 'react-native-svg'
 const QuestionScreen = ({ route, navigation }) => {
   const { question, isLastQuestion, answers, currentQuestionIndex } = route.params;
   const [answer, setAnswer] = useState(null);
+  const [expandedHeader, setExpandedHeader] = useState(false);
   const nextQuestionIndex = currentQuestionIndex + 1;
+
+  const expandAnimation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(expandAnimation, {
+        toValue: expandedHeader ? 500 : 0,
+        duration: 500,
+        useNativeDriver: true
+    }).start()
+  }, [expandedHeader])
 
   useEffect(() => {
       // This effect runs whenever 'answer' changes
@@ -49,41 +54,6 @@ const QuestionScreen = ({ route, navigation }) => {
         }
     }
   }, [answer]);
-
-  const submitAnswersToApi = async (allAnswers) => {
-    try {
-        const connection = mysql.createConnection({
-          host: 'localhost',
-          user: 'avnadmin',
-          password: 'AVNS_rDXztx4v3QSHKXauK0f',
-          database: 'defaultdb',
-        });
-
-      // Replace 'your-user-id-here' with the actual user ID
-      const userID = '8f802c9b-ea67-4771-82e0-ff168c4d2222';
-
-      // Construct the SQL query to insert survey answers into the database
-      const sql = `
-        INSERT INTO Survey (ID, UserID, AnswerDate, Question1, Question2, Question3, Question4, Question5, Question6)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
-      `;
-
-      // Execute the SQL query
-      const [rows] = await connection.execute(sql, [
-        "test", // Replace with an actual survey ID (e.g., a UUID)
-        userID,
-        new Date().toISOString(),
-        ...allAnswers,
-      ]);
-
-      console.log('Survey answers submitted successfully!');
-
-      // Close the database connection
-      await connection.end();
-    } catch (error) {
-      console.error('Error submitting survey answers:', error.message);
-    }
-  };
 
 
 /*
@@ -122,6 +92,13 @@ const QuestionScreen = ({ route, navigation }) => {
           paddingTop: 5,
           width: "100%"
       },
+      headerLeft: {
+          flexDirection: "row",
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "center",
+          gap: 20
+      },
       container: {
         position: "relative",
         backgroundColor: colors.white,
@@ -132,7 +109,12 @@ const QuestionScreen = ({ route, navigation }) => {
         alignItems: "center",
         flexDirection: "column",
         paddingTop: 110,
-        gap: 10
+        gap: 10,
+        transform: [
+            {
+                translateY: expandAnimation
+            }
+        ]
       },
       actions: {
           display: "flex",
@@ -196,14 +178,23 @@ const QuestionScreen = ({ route, navigation }) => {
       }
     })
 
+    const toggleHeader = () => setExpandedHeader(!expandedHeader)
+
   return (
     <View style={styles.body}>
       <View style={styles.mainContainer}>
           <View style={customStyles.header}>
+            <View style={customStyles.headerLeft}>
+                <TouchableWithoutFeedback onPress={toggleHeader}>
+                    <Svg height="16" width="14" viewBox="0 0 448 512">
+                        <Path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
+                    </Svg>
+                </TouchableWithoutFeedback>
               <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
+            </View>
               <CustomText style={{paddingRight: 10}}>Hola Paola!</CustomText>
           </View>
-          <View style={customStyles.container}>
+          <Animated.View style={customStyles.container}>
             <TopWave/>
             <View style={customStyles.actions}>
                 <View style={customStyles.questionsContainer}>
@@ -223,16 +214,13 @@ const QuestionScreen = ({ route, navigation }) => {
                 <View style={customStyles.progressBar}>
                     <View style={customStyles.line}></View>
                     {[...Array(6)].map((x, i) =>
-                        <Svg style={customStyles.step} viewBox="0 0 512 512">
+                        <Svg key={'step'+i} style={customStyles.step} viewBox="0 0 512 512">
                             <Path d={progressSvgPath(i)}/>
                         </Svg>
                       )}
-
-
-
                 </View>
             </View>
-          </View>
+          </Animated.View>
       </View>
     </View>
    );
