@@ -25,8 +25,8 @@ const App = () => {
           component={HomeScreen}
           options={{title: 'Welcome to Dracula'}}
         />
-        <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen name="Create" component={CreateProfileScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Create" component={CreateScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
