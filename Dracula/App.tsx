@@ -12,6 +12,7 @@ import PBACOneScreen from './pages/PBAC01Screen';
 import PBACTwoScreen from './pages/PBAC02Screen';
 import PBACThreeScreen from './pages/PBAC03Screen';
 import PBACFourScreen from './pages/PBAC04Screen';
+import PBACResultsScreen from './pages/PBACResultsScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -42,10 +43,38 @@ const App = () => {
         <Stack.Screen name="Create" component={CreateScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Calendar" component={CalendarScreen} />
-        <Stack.Screen name="PBACOneScreen" component={PBACOneScreen} />
-        <Stack.Screen name="PBACTwoScreen" component={PBACTwoScreen} initialParams={cumulativeScore = 0} />
-        <Stack.Screen name="PBACThreeScreen" component={PBACThreeScreen} initialParams={cumulativeScore} />
-        <Stack.Screen name="PBACFourScreen" component={PBACFourScreen} initialParams={cumulativeScore} />
+
+        let sharedParams = (pbacAnswers, cumulativeScore) => ({
+          pbacAnswers: pbacAnswers || [],
+          cumulativeScore: cumulativeScore || 0,
+        });
+
+        <Stack.Screen
+          name={`PBACOneScreen`}
+          component={PBACOneScreen}
+          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+        />
+        <Stack.Screen
+          name={`PBACTwoScreen`}
+          component={PBACTwoScreen}
+          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+        />
+        <Stack.Screen
+          name={`PBACThreeScreen`}
+          component={PBACThreeScreen}
+          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+        />
+        <Stack.Screen
+          name={`PBACFourScreen`}
+          component={PBACFourScreen}
+          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+        />
+        <Stack.Screen
+          name={`PBACResultsScreen`}
+          component={PBACResultsScreen}
+          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+        />
+
 
         {questions.map((question, index) => (
           <Stack.Screen
@@ -59,6 +88,7 @@ const App = () => {
               currentQuestionIndex: index,
             }}/>
         ))}
+
       </Stack.Navigator>
     </NavigationContainer>
   );

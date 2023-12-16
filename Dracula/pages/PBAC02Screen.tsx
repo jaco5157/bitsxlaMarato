@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
 import styles, {colors} from './Styles';
-import { product } from './PBACOneScreen';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
@@ -24,8 +23,8 @@ const PBACTwoScreen = ({ route, navigation }) => {
     const PBAC_question2 = ['What is the blood intensity?'];
     const currentQuestionIndex = 2;
     let cumulativeScore = 0;
-    const [score, setScore] = useState(null);
-    const {product} = route.params;
+    const [ answer, setAnswer ] = useState(null);
+    const { pbacAnswers, cumulativeScore } = route.params;
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
@@ -34,26 +33,33 @@ const PBACTwoScreen = ({ route, navigation }) => {
 
     // 2. Handle blood intensity
     const handleLow = () => {
-        setScore(1);
-        cumulativeScore = cumulativeScore + score;
+        setAnswer(1);
     };
     const handleMid = () => {
-        setScore(5);
-        cumulativeScore = cumulativeScore + score;
+        setAnswer(5);
     };
     const handleHigh = () => {
-        if (product=='pad') {
-            setScore(20);
-            cumulativeScore = cumulativeScore + score;
+        if (pbacAnswers[0]=='pad') {
+            setAnswer(20);
         } else {
-            setScore(10);
-            cumulativeScore = cumulativeScore + score;
+            setAnswer(10);
         }
     };
 
     const submitScoreToApi = (cumulativeScore) => {
         console.log('Cumulative score:', cumulativeScore);
     };
+
+  useEffect(() => {
+    if (answer !== null) {
+        // Navigate to next page
+        navigation.push(`PBACThreeScreen`, {
+            pbacAnswers: [...pbacAnswers, answer], // Add the current answer to the answers array
+            cumulativeScore: cumulativeScore + answer,
+          });
+        }
+    }
+  }, [answer]);
 
 
 

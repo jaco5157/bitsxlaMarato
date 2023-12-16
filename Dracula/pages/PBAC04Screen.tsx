@@ -20,10 +20,10 @@ import Svg, {Path} from 'react-native-svg'
     */}
 
 const PBACFourScreen = ({ route, navigation }) => {
-    const PBAC_questions = ['Did you have any flooding?'];
+    const PBAC_questions = ['Did you have any blood flooding?'];
     const currentQuestionIndex = 4;
-    const [score, setScore] = useState(null);
-    const { cumulativeScore } = route.params;
+    const [answer, setAnswer ] = useState(null);
+    const { pbacAnswers, cumulativeScore } = route.params;
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
@@ -40,6 +40,16 @@ const PBACFourScreen = ({ route, navigation }) => {
         console.log('Cumulative score:', cumulativeScore);
     };
 
+  useEffect(() => {
+    if (answer !== null) {
+        // Navigate to next page
+        navigation.push(`ResultsScreen`, {
+            pbacAnswers: [...pbacAnswers, answer], // Add the current answer to the answers array
+            cumulativeScore: cumulativeScore + answer,
+          });
+        }
+    }
+  }, [answer]);
 
 // //////////// CHANGE FROM HERE
 

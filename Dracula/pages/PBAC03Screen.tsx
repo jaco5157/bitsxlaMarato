@@ -22,8 +22,8 @@ import Svg, {Path} from 'react-native-svg'
 const PBACThreeScreen = ({ route, navigation }) => {
     const PBAC_question3 = ['Did you have any blood clots, and if so, what size?'];
     const currentQuestionIndex = 3;
-    const [score, setScore] = useState(null);
-    const { cumulativeScore } = route.params;
+    const [answer, setAnswer] = useState(null);
+    const { pbacAnswers, cumulativeScore } = route.params;
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
@@ -32,17 +32,28 @@ const PBACThreeScreen = ({ route, navigation }) => {
 
     // 3. Handle clots
     const handleClot1p = () => {
-//         setScore(1);
-        cumulativeScore = cumulativeScore + 1;
+        setAnswer(1);
     }
     const handleClot50p = () => {
-//         setScore(5);
-        cumulativeScore = cumulativeScore + 5;
+        setAnswer(5);
     }
 
     const submitScoreToApi = (cumulativeScore) => {
         console.log('Cumulative score:', cumulativeScore);
     };
+
+  useEffect(() => {
+    if (answer !== null) {
+        // Navigate to next page
+        navigation.push(`PBACFourScreen`, {
+            pbacAnswers: [...pbacAnswers, answer], // Add the current answer to the answers array
+            cumulativeScore: cumulativeScore + answer,
+          });
+        }
+    }
+  }, [answer]);
+
+
 
 // //////////// CHANGE FROM HERE
 

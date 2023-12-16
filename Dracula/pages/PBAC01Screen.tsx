@@ -22,27 +22,36 @@ import Svg, {Path} from 'react-native-svg'
 const PBACOneScreen = ({ route, navigation }) => {
     const PBAC_question1 = ['Choose product type:'];
     const currentQuestionIndex = 1;
-    const [product, setProduct] = useState(null);
+    const [answer, setAnswer] = useState(null);
+    const { pbacAnswers, cumulativeScore } = route.params;
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
     console.log(product)
-    console.log('Action on index:', currentQuestionIndex, 'Product:', product);
+    console.log('Action on index:', currentQuestionIndex, 'Product:', answer);
   }, [product]);
 
     // 1. Handle product type
     const handlePad = () => {
-        setProduct('pad');
-//         product = 'pad';
+        setAnswer('pad');
     };
     const handleTampon = () => {
-        setProduct('tampon');
-//         product = 'tampon';
+        setAnswer('tampon');
     };
 
     const submitScoreToApi = (product) => {
         console.log('Product:', product);
     };
+
+  useEffect(() => {
+    if (answer !== null) {
+        // Navigate to next page
+        navigation.push(`PBACTwoScreen`, {
+            pbacAnswers: [...pbacAnswers, answer], // Add the current answer to the answers array
+          });
+        }
+    }
+  }, [answer]);
 
 
 // //////////// CHANGE FROM HERE
