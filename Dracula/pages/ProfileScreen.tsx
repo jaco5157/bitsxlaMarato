@@ -10,7 +10,7 @@ const ProfileScreen = ({navigation, route}) => {
     <View>
         <Text style={styles.container}>This is {route.params.username}'s profile</Text>
         <View style={styles.buttonStyle}>
-            <Button title="Take the daily questionaire" onPress={handleClick} />
+            <Button title="Take the daily questionnaire" onPress={handleClick} />
         </View>
     </View>
   );
