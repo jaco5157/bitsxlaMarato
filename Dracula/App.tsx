@@ -1,4 +1,5 @@
 import * as React from 'react';
+import LoginPage from './pages/LoginPage'
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
@@ -10,6 +11,7 @@ import {
   useColorScheme,
   View,
   Button,
+  TextInput,
 } from 'react-native';
 
 const Stack = createNativeStackNavigator();
@@ -23,7 +25,7 @@ const App = () => {
           component={HomeScreen}
           options={{title: 'Welcome to Dracula'}}
         />
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Create" component={CreateProfileScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
@@ -33,39 +35,54 @@ const App = () => {
 
 const HomeScreen = ({navigation}) => {
   return (
-    <View style={{ flexDirection:"row" }}>
+    <View style={{ flexDirection:"column" }}>
         <View style={styles.buttonStyle}>
             <Button
                   title="Login"
-                  onPress={() =>navigation.navigate('Login')}>
-                  Login
-            </Button>
+                  onPress={() =>navigation.navigate('Login')}/>
         </View>
         <View style={styles.buttonStyle}>
             <Button
                 title="Create profile"
-                onPress={() =>navigation.navigate('Create')}>
-                Create profile
-            </Button>
+                onPress={() =>navigation.navigate('Create')}/>
         </View>
     </View>
   );
 };
 // onPress={() =>navigation.navigate('Profile', {name: 'Jane'})}
 
+
+/*
 const LoginScreen = ({navigation}) => {
-  return (
-  <View>
+    const [username, setUsername] = useState('');
+
+    const handleLogin = () => {
+    // You can add validation or authentication logic here
+    // For now, let's just navigate to the 'Profile' screen with the entered username
+    navigation.navigate('Profile', { username });
+    };
+    return (
+    <View>
     <Text>This is the login page, please enter your username.</Text>
+    <TextInput
+            style={styles.input}
+            placeholder="Enter your username"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
+          />
     <View style={styles.buttonStyle}>
-        <Button
+        <Button title="Login" onPress={handleLogin} />
+    </View>
+    </View>
+    );
+};
+*/
+/*
+<Button
               title="Login"
               onPress={() =>navigation.navigate('Profile', {username: 'Jane'})}
               />
-    </View>
-  </View>
-  );
-};
+*/
 
 const CreateProfileScreen = ({navigation}) => {
   return <Text>Create profile</Text>;
@@ -238,26 +255,6 @@ function App(): React.JSX.Element {
     </SafeAreaView>
   );
 }
-
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
 
