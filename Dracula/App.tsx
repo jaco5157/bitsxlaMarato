@@ -3,7 +3,9 @@ import HomeScreen from './pages/HomeScreen';
 import LoginScreen from './pages/LoginScreen';
 import CreateScreen from './pages/CreateScreen';
 import ProfileScreen from './pages/ProfileScreen';
+import QuestionScreen from './pages/QuestionScreen';
 import styles from './pages/Styles';
+import questions from './pages/Questions';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -33,6 +35,18 @@ const App = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Create" component={CreateScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        {questions.map((question, index) => (
+          <Stack.Screen
+            key={index}
+            name={`Question${index + 1}`}
+            component={QuestionScreen}
+            initialParams={{
+              question,
+              isLastQuestion: index === questions.length - 1,
+              answers: [], // Initialize answers array
+              currentQuestionIndex: index,
+            }}/>
+        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );

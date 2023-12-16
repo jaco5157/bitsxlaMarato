@@ -4,7 +4,7 @@ import styles from './Styles';
 
 const HomeScreen = ({navigation}) => {
   return (
-    <View style={{ flexDirection:"column" }}>
+    <View style={styles.container}>
         <View style={styles.buttonStyle}>
             <Button
                   title="Login"
