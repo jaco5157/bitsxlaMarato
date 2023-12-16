@@ -24,7 +24,7 @@ const CreateScreen = ({ navigation }) => {
         container: {
           position: "relative",
           backgroundColor: colors.white,
-          height: 500,
+          height: "100%",
           width: "100%",
           color: colors.black,
           display: "flex",
@@ -79,7 +79,7 @@ const CreateScreen = ({ navigation }) => {
                         onChangeText={(text) => setPassword(text)}
                       />
                   <Pressable style={{...styles.button, ...customStyles.loginButton}} onPress={handleCreate}>
-                      <Text style={{color: "white"}}>Create profile</Text>
+                      <CustomText style={{color: "white"}}>Create profile</CustomText>
                   </Pressable>
               </View>
               <BottomWave/>

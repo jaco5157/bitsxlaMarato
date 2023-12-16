@@ -9,7 +9,7 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
 
   const handleLogin = () => {
-    navigation.navigate('Calendar', { username });
+    navigation.navigate('Profile', { username });
   };
 
   const customStyles = StyleSheet.create({
@@ -23,7 +23,7 @@ const LoginScreen = ({ navigation }) => {
       container: {
         position: "relative",
         backgroundColor: colors.white,
-        height: 500,
+        height: "100%",
         width: "100%",
         color: colors.black,
         display: "flex",
@@ -71,7 +71,7 @@ const LoginScreen = ({ navigation }) => {
                     onChangeText={(text) => setUsername(text)}
                   />
                 <Pressable style={{...styles.button, ...customStyles.loginButton}} onPress={handleLogin}>
-                    <Text style={{color: "white"}}>Login</Text>
+                    <CustomText style={{color: "white"}}>Login</CustomText>
                 </Pressable>
             </View>
             <BottomWave/>
