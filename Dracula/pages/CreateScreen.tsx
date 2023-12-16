@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import styles from './Styles';
+import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
+import styles, {colors} from './Styles';
+import TopWave from '../components/TopWave'
+import BottomWave from '../components/BottomWave'
+import CustomText from '../components/CustomText'
 
 const CreateScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -10,25 +13,79 @@ const CreateScreen = ({ navigation }) => {
     navigation.navigate('Profile', { username });
   };
 
+  const customStyles = StyleSheet.create({
+        header: {
+            flexDirection: "column",
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: 20,
+        },
+        container: {
+          position: "relative",
+          backgroundColor: colors.white,
+          height: 500,
+          width: "100%",
+          color: colors.black,
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          paddingTop: 110,
+          gap: 10
+        },
+        actions: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            gap: 30,
+            width: "75%"
+        },
+        title: {
+            color: colors.black,
+            fontWeight: "400",
+            fontFamily: "Kalnia-Regular",
+            fontSize: 40,
+        },
+        loginButton: {
+            backgroundColor: colors.primary,
+            width: "100%"
+        }
+    })
+
   return (
-    <View style={styles.container}>
-      <Text>Please enter a username and password</Text>
-      <TextInput
-            style={styles.input}
-            placeholder="Username"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-          />
-      <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-      <View style={styles.buttonStyle}>
-        <Button title="Create profile" onPress={handleCreate} />
+    <View style={styles.body}>
+        <View style={styles.mainContainer}>
+            <View style={customStyles.header}>
+                <Text style={customStyles.title}>DRACULA</Text>
+                <Image source={require('./../assets/logo.png')} style={styles.logo}/>
+            </View>
+            <View style={customStyles.container}>
+            <TopWave/>
+              <View style={customStyles.actions}>
+                  <CustomText style={{fontSize: 20}}>Register</CustomText>
+                  <TextInput
+                      style={styles.input}
+                      placeholder="Username"
+                      placeholderTextColor="gray"
+                      value={username}
+                      onChangeText={(text) => setUsername(text)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Password"
+                        placeholderTextColor="gray"
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                      />
+                  <Pressable style={{...styles.button, ...customStyles.loginButton}} onPress={handleCreate}>
+                      <Text style={{color: "white"}}>Create profile</Text>
+                  </Pressable>
+              </View>
+              <BottomWave/>
+            </View>
+        </View>
       </View>
-    </View>
   );
 };
 

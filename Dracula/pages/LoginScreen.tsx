@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'rea
 import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import BottomWave from '../components/BottomWave'
+import CustomText from '../components/CustomText'
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -28,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        paddingTop: 150,
+        paddingTop: 110,
         gap: 10
       },
       actions: {
@@ -61,6 +62,7 @@ const LoginScreen = ({ navigation }) => {
           <View style={customStyles.container}>
           <TopWave/>
             <View style={customStyles.actions}>
+              <CustomText style={{fontSize: 20}}>Login</CustomText>
                 <TextInput
                     style={styles.input}
                     placeholder="Username"
