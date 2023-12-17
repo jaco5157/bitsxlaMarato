@@ -5,10 +5,10 @@ Table of Contents :bookmark_tabs:
 - [Overview](#overview)
 - [Mobile App for Period Flow Tracking]()
 - [Web Application for Classification of Menstrual Blood Loss]()
-- [Steps to Use the Application](#steps-to-Use-the-application)
-- [Model Used](#model-used)
-- [Installation](#installation)
-- [Code and Resources Used](#code-and-resources-used)
+  - [Steps to Use the Application](#steps-to-Use-the-application)
+  - [Model Used](#model-used)
+  - [Installation](#installation)
+  - [Code and Resources Used](#code-and-resources-used)
 
 
 ## Overview
