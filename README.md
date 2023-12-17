@@ -20,12 +20,19 @@ We developed a mobile application for period tracking and to answer the PBAC s
 ### Login
 ![Login](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/33c979bc-ec7f-43f5-9712-c846b5bdbdef)
 
+### Period tracking
+
+
 ### Questionnaire
 ![Questionnaire](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/e5ff3d0c-97e4-45b1-953e-794786a59539)
 
 ### PBAC Score
 <img width="229" alt="PBAC-score-test-q4" src="https://github.com/jaco5157/bitsxlaMarato/assets/74814020/fc9f45ef-6e30-4be7-a97a-1752e8b44888">
 <img width="228" alt="PBAC-score-testq3" src="https://github.com/jaco5157/bitsxlaMarato/assets/74814020/25de5068-6a90-48b8-a9dc-6e8af689e34e">
+
+### Additional features
+![Stats](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/240faa75-d5d2-4f66-ba9f-d6366b265716)
+
 
 ## Web Application for Classification of Menstrual Blood Loss 🩸
 Furthermore, we developed a simple web demo with using PyTorch and Streamlit to showcase an image classification model for menstrual blood loss.
