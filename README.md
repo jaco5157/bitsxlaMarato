@@ -12,12 +12,14 @@ Table of Contents :bookmark_tabs:
 
 
 ## Overview
-A simple web demo with minimal framework using PyTorch and Streamlit to showcase an image classification model
+In the scope of BitxlaMarato, we developed a mobile application for period tracking and to answer the PBAC survey. Furthermore, we developed a simple web demo with using PyTorch and Streamlit to showcase an image classification model for menstrual blood loss.
 
-## Mobile App for Period Flow Tracking
+## Mobile App for Period Flow Tracking 🌸
+We developed a mobile application for period tracking and to answer the PBAC survey.
+## Web Application for Classification of Menstrual Blood Loss 🩸
+Furthermore, we developed a simple web demo with using PyTorch and Streamlit to showcase an image classification model for menstrual blood loss.
 
-## Web Application for Classification of Menstrual Blood Loss 
-![image](https://user-images.githubusercontent.com/45563371/102043522-97f85d00-3e0f-11eb-924e-e98b46fa074a.png)
+![cnn](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/b2b780f4-66e7-45d6-b153-f8ceb957b397)
 
 ### Steps to Use the Application
 - Clone the repository onto your own local machine
