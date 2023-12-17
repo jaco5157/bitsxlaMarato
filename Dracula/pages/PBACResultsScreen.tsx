@@ -20,21 +20,17 @@ const PBACResultsScreen = ({ route, navigation }) => {
     const [currentUser] = useStorage('DRACULA@current-user', '')
 
 
-    const answer = {
-       cumulativeScore: cumulativeScore,
-       answers: pbacAnswers
-   }
 
     const currentUserLC = currentUser.toLowerCase()
     if (PBAC[currentUserLC] === undefined)
-        PBAC[currentUserLC] = [answer]
+        PBAC[currentUserLC] = [pbacAnswers]
     else
-        PBAC[currentUserLC] = [...PBAC[currentUserLC], answer]
+        PBAC[currentUserLC] = [...PBAC[currentUserLC], pbacAnswers]
 
-//      setPBAC(PBAC).then(() => {
-//          console.log('Answers:', answers);
-//          console.log(PBAC[currentUserLC])
-//      })
+     setPBAC(PBAC).then(() => {
+         console.log('Answers:', pbacAnswers);
+         console.log(PBAC[currentUserLC])
+     })
 
      const customStyles = StyleSheet.create({
        header: {
