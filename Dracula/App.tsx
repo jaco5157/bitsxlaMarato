@@ -33,71 +33,64 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
 
-    <PBACProvider>
-
     return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Welcome to Dracula'}}
-        />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Create" component={CreateScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Calendar" component={CalendarScreen} />
+    <PBACProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{title: 'Welcome to Dracula'}}
+            />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Create" component={CreateScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Calendar" component={CalendarScreen} />
 
-        <Stack.Screen
-          name={`PBACOneScreen`}
-          component={PBACOneScreen}
-          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
-          options={{title: 'PBAC Score Test'}}
-        />
-        <Stack.Screen
-          name={`PBACTwoScreen`}
-          component={PBACTwoScreen}
-          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
-          options={{title: 'PBAC Score Test'}}
-        />
-        <Stack.Screen
-          name={`PBACThreeScreen`}
-          component={PBACThreeScreen}
-          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
-          options={{title: 'PBAC Score Test'}}
-        />
-        <Stack.Screen
-          name={`PBACFourScreen`}
-          component={PBACFourScreen}
-          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
-          options={{title: 'PBAC Score Test'}}
-        />
-        <Stack.Screen
-          name={`PBACResultsScreen`}
-          component={PBACResultsScreen}
-          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
-          options={{title: 'PBAC Score Results'}}
-        />
+            {/*} PBAC SCORE {*/}
+            <Stack.Screen
+              name={`PBACOneScreen`}
+              component={PBACOneScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACTwoScreen`}
+              component={PBACTwoScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACThreeScreen`}
+              component={PBACThreeScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACFourScreen`}
+              component={PBACFourScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACResultsScreen`}
+              component={PBACResultsScreen}
+              options={{title: 'PBAC Score Results'}}
+            />
 
+            {/*} QUESTIONNAIRE {*/}
+            {questions.map((question, index) => (
+              <Stack.Screen
+                key={index}
+                name={`Question${index + 1}`}
+                component={QuestionScreen}
+                initialParams={{
+                  question,
+                  isLastQuestion: index === questions.length - 1,
+                  answers: [], // Initialize answers array
+                  currentQuestionIndex: index,
+                }}/>
+            ))}
 
-        {questions.map((question, index) => (
-          <Stack.Screen
-            key={index}
-            name={`Question${index + 1}`}
-            component={QuestionScreen}
-            initialParams={{
-              question,
-              isLastQuestion: index === questions.length - 1,
-              answers: [], // Initialize answers array
-              currentQuestionIndex: index,
-            }}/>
-        ))}
-
-      </Stack.Navigator>
-    </NavigationContainer>
-
+          </Stack.Navigator>
+        </NavigationContainer>
     </PBACProvider>
-
     );
 };
 

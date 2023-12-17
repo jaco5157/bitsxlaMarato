@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 const PBACContext = createContext();
 
 export const PBACProvider = ({ children }) => {
+
   const [pbacAnswers, setPbacAnswers] = useState([]);
   const [cumulativeScore, setCumulativeScore] = useState(0);
 
@@ -21,6 +22,7 @@ export const PBACProvider = ({ children }) => {
       {children}
     </PBACContext.Provider>
   );
+
 };
 
 export const usePBACContext = () => useContext(PBACContext);
