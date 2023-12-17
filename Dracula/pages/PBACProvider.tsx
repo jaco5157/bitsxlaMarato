@@ -15,9 +15,14 @@ export const PBACProvider = ({ children }) => {
     setCumulativeScore((prevScore) => prevScore + newScore);
   };
 
+  const resetValues = () => {
+    setPbacAnswers( () => [] );
+    setCumulativeScore( () => 0 );
+  };
+
   return (
     <PBACContext.Provider
-      value={{ pbacAnswers, cumulativeScore, updatePbacAnswers, updateCumulativeScore }}
+      value={{ pbacAnswers, cumulativeScore, updatePbacAnswers, updateCumulativeScore, resetValues }}
     >
       {children}
     </PBACContext.Provider>
