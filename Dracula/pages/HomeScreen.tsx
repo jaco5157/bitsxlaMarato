@@ -55,9 +55,6 @@ const HomeScreen = ({navigation}) => {
                     <Pressable style={{...styles.button, ...customStyles.registerButton}} onPress={() =>navigation.navigate('Create')}>
                         <CustomText style={{color: colors.white, fontFamily: "FiraSans-Medium"}}>REGISTER</CustomText>
                     </Pressable>
-                    <Pressable style={{...styles.button, ...customStyles.registerButton}} onPress={() =>navigation.navigate('PBACOneScreen')}>
-                        <CustomText style={{color: colors.white, fontFamily: "FiraSans-Medium"}}>TEST</CustomText>
-                    </Pressable>
                 </View>
                 {reset ? (<></>) : (
                     <Pressable style={{...styles.button, ...customStyles.registerButton, width: 150, marginTop: 10}} onPress={() => clear()}>

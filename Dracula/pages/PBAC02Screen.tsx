@@ -4,6 +4,7 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
+import Header from '../components/Header'
 import { usePBACContext } from './PBACProvider';
 
     {/*
@@ -97,7 +98,7 @@ const PBACTwoScreen = ({ route, navigation }) => {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        paddingTop: 110,
+        paddingTop: 90,
         gap: 10
       },
       actions: {
@@ -114,7 +115,7 @@ const PBACTwoScreen = ({ route, navigation }) => {
         gap: 20,
         flexGrow: 1,
         justifyContent: "center",
-        paddingBottom: 50
+        paddingBottom: 100
       },
       answers: {
         display: "flex",
@@ -124,21 +125,21 @@ const PBACTwoScreen = ({ route, navigation }) => {
         justifyContent:"space-around",
       },
       answer: {
-        borderRadius: 50,
-        color: "white",
-        width: 60,
-        height: 60,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      },
-      bloodDrop: {
-        position: 'absolute',
-        bottom: -35,
-        left: -6,
-        width: 70,
-        height: 70
-      },
+              borderRadius: 50,
+              color: "white",
+              width: 80,
+              height: 80,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            },
+            bloodDrop: {
+              position: 'absolute',
+              bottom: -42,
+              left: -5,
+              width: 90,
+              height: 90
+            },
       progressBar: {
         display: "flex",
         flexDirection: "row",
@@ -166,15 +167,16 @@ const PBACTwoScreen = ({ route, navigation }) => {
    return (
      <View style={styles.body}>
        <View style={styles.mainContainer}>
-           <View style={customStyles.header}>
-               <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
-               <CustomText style={{paddingRight: 10}}> Hola Paola! </CustomText>
-           </View>
+           <Header/>
+
            <View style={customStyles.container}>
              <TopWave/>
+            <CustomText style={{color:colors.primary, fontFamily:"FiraSans-Bold", fontSize:22}}>Usage of a sanitary product</CustomText>
+
              <View style={customStyles.actions}>
                  <View style={customStyles.questionsContainer}>
-                     <CustomText style={{textAlign: "center"}}>{ PBAC_question2 }</CustomText>
+                    <CustomText style={{textAlign: "center", fontSize:20}}>{PBAC_question2}</CustomText>
+
                      <View style={customStyles.answers}>
 
                         {/* LOW FLOW */}
@@ -208,8 +210,8 @@ const PBACTwoScreen = ({ route, navigation }) => {
                  <View style={customStyles.progressBar}>
                      <View style={customStyles.line}></View>
                      {[...Array(4)].map((x, i) =>
-                         <Svg style={customStyles.step} viewBox="0 0 512 512">
-                             <Path d={progressSvgPath(i)}/>
+                         <Svg key={'step'+i} style={customStyles.step} viewBox="0 0 512 512">
+                             <Path d={progressSvgPath(i+1)}/>
                          </Svg>
                        )}
                  </View>

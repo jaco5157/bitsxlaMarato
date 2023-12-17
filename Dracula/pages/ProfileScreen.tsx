@@ -70,7 +70,7 @@ const ProfileScreen = ({navigation, route}) => {
                           <CustomText style={{textAlign: "center"}}>Hey <CustomText style={styles.highlight}>{currentUser}</CustomText>!</CustomText>
                           <CustomText style={{fontFamily: "FiraSans-Light", textAlign: "center"}}>Your cycle has started last <CustomText>{new Date(lastCycle[0]).toDateString()}</CustomText></CustomText>
                       </View>
-                      <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%", paddingTop: 25, paddingBottom: 25}} onPress={() => endCycle()}>
+                      <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%", paddingTop: 25, paddingBottom: 25}} onPress={() => navigation.navigate('PBACOneScreen')}>
                           <CustomText style={{color: colors.white}}>Add a sanitory product used</CustomText>
                         </Pressable>
                       <Pressable style={{...styles.button, backgroundColor: colors.white, borderColor: colors.primary, borderWidth: 3, width: "100%"}} onPress={() => endCycle()}>

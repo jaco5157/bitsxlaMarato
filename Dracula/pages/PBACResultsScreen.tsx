@@ -3,17 +3,34 @@ import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'rea
 import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
+import Header from '../components/Header'
 import Svg, {Path} from 'react-native-svg'
+import {useStorage} from '../hooks/useStorage'
 
 import { usePBACContext } from './PBACProvider';
 
 const PBACResultsScreen = ({ route, navigation }) => {
-    const { pbacAnswers, cumulativeScore } = usePBACContext();
+    const { pbacAnswers, cumulativeScore, updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
-    useEffect(() => {
-        // This effect runs whenever 'answer' changes
-        console.log('Answers:', pbacAnswers, 'Cumulative score:', cumulativeScore);
-    }, []);
+    const [PBAC, setPBAC, refreshPBAC] = useStorage('DRACULA@PBAC', {})
+    const [currentUser] = useStorage('DRACULA@current-user', '')
+
+
+    const answer = {
+       cumulativeScore: cumulativeScore,
+       answers: pbacAnswers
+   }
+
+    const currentUserLC = currentUser.toLowerCase()
+    if (PBAC[currentUserLC] === undefined)
+        PBAC[currentUserLC] = [answer]
+    else
+        PBAC[currentUserLC] = [...PBAC[currentUserLC], answer]
+
+     setPBAC(PBAC).then(() => {
+         console.log('Answers:', answers);
+         console.log(PBAC[currentUserLC])
+     })
 
      const customStyles = StyleSheet.create({
        header: {
@@ -34,7 +51,7 @@ const PBACResultsScreen = ({ route, navigation }) => {
          display: "flex",
          alignItems: "center",
          flexDirection: "column",
-         paddingTop: 110,
+         paddingTop: 90,
          gap: 10
        },
        actions: {
@@ -104,12 +121,12 @@ const PBACResultsScreen = ({ route, navigation }) => {
    return (
      <View style={styles.body}>
        <View style={styles.mainContainer}>
-           <View style={customStyles.header}>
-               <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
-               <CustomText style={{paddingRight: 10}}> Hola Paola! </CustomText>
-           </View>
+           <Header/>
+
            <View style={customStyles.container}>
              <TopWave/>
+            <CustomText style={{color:colors.primary, fontFamily:"FiraSans-Bold", fontSize:22}}>PBAC Score</CustomText>
+
              <View style={customStyles.actions}>
                  <View style={customStyles.questionsContainer}>
                      <CustomText style={{textAlign: "center"}}>{ cumulativeScore }</CustomText>
