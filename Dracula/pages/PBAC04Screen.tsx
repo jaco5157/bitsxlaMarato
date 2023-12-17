@@ -4,6 +4,7 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
+import { usePBACContext } from './PBACProvider';
 
     {/*
     SCORES
@@ -20,20 +21,21 @@ import Svg, {Path} from 'react-native-svg'
     */}
 
 const PBACFourScreen = ({ route, navigation }) => {
-    const PBAC_questions = ['Did you have any blood flooding?'];
+    const PBAC_question4 = ['Did you have any blood flooding?'];
     const currentQuestionIndex = 4;
     const [answer, setAnswer ] = useState(null);
-    const { pbacAnswers, cumulativeScore } = route.params;
+    const { updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
-  useEffect(() => {
+    useEffect( () => {
     // This effect runs whenever 'answer' changes
     console.log('Action on index:', currentQuestionIndex, 'Cumulative score:', cumulativeScore);
-  }, [cumulativeScore]);
+    }, [cumulativeScore]);
 
     // 4. Flooding
     const handleFlooding = () => {
-        cumulativeScore = cumulativeScore + 5;
-//         setScore(5);
+//         setAnswer(5);
+        updatePbacAnswers(5);
+        updateCumulativeScore(5);
     }
 
     const submitScoreToApi = (cumulativeScore) => {
@@ -44,14 +46,21 @@ const PBACFourScreen = ({ route, navigation }) => {
     if (answer !== null) {
         // Navigate to next page
         navigation.push(`ResultsScreen`, {
-            pbacAnswers: [...pbacAnswers, answer], // Add the current answer to the answers array
-            cumulativeScore: cumulativeScore + answer,
-          });
-        }
+            pbacAnswers: [...pbacAnswers, answer],
+            cumulativeScore: cumulativeScore + answer
+        });
     }
   }, [answer]);
 
-// //////////// CHANGE FROM HERE
+  const progressSvgPath = (i) => {
+      if (i < currentQuestionIndex)
+          return "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+      else if (i === currentQuestionIndex)
+          return "M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256-96a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"
+      else
+          return "M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"
+  }
+
 
      const customStyles = StyleSheet.create({
        header: {
@@ -152,32 +161,33 @@ const PBACFourScreen = ({ route, navigation }) => {
                  <View style={customStyles.questionsContainer}>
                      <CustomText style={{textAlign: "center"}}>{ PBAC_question4 }</CustomText>
                      <View style={customStyles.answers}>
+                        {/* FLOODING */}
                          <View style={{position: 'relative'}}>
                              <Pressable onPress={ () => {
                                 handleFlooding();
-                                navigation.navigate('HomeScreen');
+                                navigation.navigate('PBACResultsScreen');
                              }} style={{...customStyles.answer, backgroundColor: colors.primary}}>
                                  <Image source={require('./../assets/blood-drop.png')} style={customStyles.bloodDrop}/>
                                  <CustomText style={{color: "white"}}> YES </CustomText>
                              </Pressable>
                          </View>
+                         {/* NONE */}
                          <Pressable onPress={ () => {
-                                 navigation.navigate('HomeScreen');
+                                 navigation.navigate('PBACResultsScreen');
                          }} style={{...customStyles.answer, backgroundColor: colors.black}}>
                              <CustomText style={{color: "white"}}> NO </CustomText>
                          </Pressable>
                      </View>
                  </View>
-                 {/*
-//                  <View style={customStyles.progressBar}>
-//                      <View style={customStyles.line}></View>
-//                      {[...Array(4)].map((x, i) =>
-//                          <Svg style={customStyles.step} viewBox="0 0 512 512">
-//                              <Path d={progressSvgPath(i)}/>
-//                          </Svg>
-//                        )}
-//                  </View>
-*/}
+                 {/* PROGRESS BAR */}
+                 <View style={customStyles.progressBar}>
+                     <View style={customStyles.line}></View>
+                     {[...Array(4)].map((x, i) =>
+                         <Svg style={customStyles.step} viewBox="0 0 512 512">
+                             <Path d={progressSvgPath(i)}/>
+                         </Svg>
+                       )}
+                 </View>
              </View>
            </View>
        </View>

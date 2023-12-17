@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './pages/Styles';
 import questions from './pages/Questions';
+import { PBACProvider } from './pages/PBACProvider';
 
 import HomeScreen from './pages/HomeScreen';
 import LoginScreen from './pages/LoginScreen';
@@ -31,7 +32,10 @@ import {
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  return (
+
+    <PBACProvider>
+
+    return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -44,35 +48,35 @@ const App = () => {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Calendar" component={CalendarScreen} />
 
-        let sharedParams = (pbacAnswers, cumulativeScore) => ({
-          pbacAnswers: pbacAnswers || [],
-          cumulativeScore: cumulativeScore || 0,
-        });
-
         <Stack.Screen
           name={`PBACOneScreen`}
           component={PBACOneScreen}
-          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
+          options={{title: 'PBAC Score Test'}}
         />
         <Stack.Screen
           name={`PBACTwoScreen`}
           component={PBACTwoScreen}
-          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
+          options={{title: 'PBAC Score Test'}}
         />
         <Stack.Screen
           name={`PBACThreeScreen`}
           component={PBACThreeScreen}
-          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
+          options={{title: 'PBAC Score Test'}}
         />
         <Stack.Screen
           name={`PBACFourScreen`}
           component={PBACFourScreen}
-          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
+          options={{title: 'PBAC Score Test'}}
         />
         <Stack.Screen
           name={`PBACResultsScreen`}
           component={PBACResultsScreen}
-          initialParams={sharedParams(pbacAnswers, cumulativeScore)}
+          initialParams={{pbacAnswers:pbacAnswers, cumulativeScore:cumulativeScore}}
+          options={{title: 'PBAC Score Results'}}
         />
 
 
@@ -91,7 +95,10 @@ const App = () => {
 
       </Stack.Navigator>
     </NavigationContainer>
-  );
+
+    </PBACProvider>
+
+    );
 };
 
 export default App;

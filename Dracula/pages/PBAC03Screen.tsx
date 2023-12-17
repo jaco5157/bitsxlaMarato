@@ -4,6 +4,7 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
+import { usePBACContext } from './PBACProvider';
 
     {/*
     SCORES
@@ -23,7 +24,7 @@ const PBACThreeScreen = ({ route, navigation }) => {
     const PBAC_question3 = ['Did you have any blood clots, and if so, what size?'];
     const currentQuestionIndex = 3;
     const [answer, setAnswer] = useState(null);
-    const { pbacAnswers, cumulativeScore } = route.params;
+    const { updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
@@ -32,10 +33,14 @@ const PBACThreeScreen = ({ route, navigation }) => {
 
     // 3. Handle clots
     const handleClot1p = () => {
-        setAnswer(1);
+//         setAnswer(1);
+        updatePbacAnswers(1);
+        updateCumulativeScore(1);
     }
     const handleClot50p = () => {
-        setAnswer(5);
+//         setAnswer(5);
+        updatePbacAnswers(5);
+        updateCumulativeScore(5);
     }
 
     const submitScoreToApi = (cumulativeScore) => {
@@ -46,16 +51,21 @@ const PBACThreeScreen = ({ route, navigation }) => {
     if (answer !== null) {
         // Navigate to next page
         navigation.push(`PBACFourScreen`, {
-            pbacAnswers: [...pbacAnswers, answer], // Add the current answer to the answers array
+            pbacAnswers: [...pbacAnswers, answer],
             cumulativeScore: cumulativeScore + answer,
-          });
-        }
+        });
     }
   }, [answer]);
 
+  const progressSvgPath = (i) => {
+      if (i < currentQuestionIndex)
+          return "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+      else if (i === currentQuestionIndex)
+          return "M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256-96a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"
+      else
+          return "M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"
+  }
 
-
-// //////////// CHANGE FROM HERE
 
     const customStyles = StyleSheet.create({
       header: {
@@ -155,44 +165,50 @@ const PBACThreeScreen = ({ route, navigation }) => {
                  <View style={customStyles.questionsContainer}>
                      <CustomText style={{textAlign: "center"}}>{ PBAC_question3 }</CustomText>
                      <View style={customStyles.answers}>
+                         {/* NO BLOOD CLOT */}
+                         <Pressable onPress={ () => {
+                                 handleClot1p();
+                                 navigation.navigate('PBACFourScreen');
+                         }} style={{...customStyles.answer, backgroundColor: colors.black}}>
+                             <CustomText style={{color: "white"}}> NONE </CustomText>
+                         </Pressable>
+                         {/* 1p BLOOD CLOT */}
+                         <View style={{position: 'relative'}}>
+                             <Pressable onPress={ () => {
+                                handleClot50p();
+                                navigation.navigate('PBACFourScreen');
+                             }} style={{...customStyles.answer, backgroundColor: colors.primary}}>
+                                 <Image source={require('./../assets/blood-drop.png')} style={customStyles.bloodDrop}/>
+                                 <CustomText style={{color: "white"}}> SMALL </CustomText>
+                             </Pressable>
+                         </View>
+                         {/* 50p BLOOD CLOT */}
                          <View style={{position: 'relative'}}>
                              <Pressable onPress={ () => {
                                 navigation.navigate('PBACFourScreen');
                              }} style={{...customStyles.answer, backgroundColor: colors.primary}}>
                                  <Image source={require('./../assets/blood-drop.png')} style={customStyles.bloodDrop}/>
-                                 <CustomText style={{color: "white"}}> NONE </CustomText>
+                                 <CustomText style={{color: "white"}}> BIG </CustomText>
                              </Pressable>
                          </View>
-                             <Pressable onPress={ () => {
-                                     handleClot1p();
-                                     navigation.navigate('PBACFourScreen');
-                             }} style={{...customStyles.answer, backgroundColor: colors.black}}>
-                                 <CustomText style={{color: "white"}}> 1P CLOT </CustomText>
-                             </Pressable>
-*
-                              <Pressable onPress={ () => {
-                                      handleClot50p();
-                                      navigation.navigate('PBACFourScreen');
-                              }} style={{...customStyles.answer, backgroundColor: colors.black}}>
-                                  <CustomText style={{color: "white"}}> 50P CLOT </CustomText>
-                              </Pressable>
+
                      </View>
                  </View>
-                 {/*
-//                  <View style={customStyles.progressBar}>
-//                      <View style={customStyles.line}></View>
-//                      {[...Array(4)].map((x, i) =>
-//                          <Svg style={customStyles.step} viewBox="0 0 512 512">
-//                              <Path d={progressSvgPath(i)}/>
-//                          </Svg>
-//                        )}
-//                  </View>
-*/}
+                 {/* PROGRESS BAR */}
+                 <View style={customStyles.progressBar}>
+                     <View style={customStyles.line}></View>
+                     {[...Array(4)].map((x, i) =>
+                         <Svg style={customStyles.step} viewBox="0 0 512 512">
+                             <Path d={progressSvgPath(i)}/>
+                         </Svg>
+                       )}
+                 </View>
              </View>
            </View>
        </View>
      </View>
     );
  };
+
 
 export default PBACThreeScreen;
