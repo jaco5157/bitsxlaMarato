@@ -16,6 +16,17 @@ In the scope of BitxlaMarato, we developed a mobile application for period track
 
 ## Mobile App for Period Flow Tracking 🌸
 We developed a mobile application for period tracking and to answer the PBAC survey.
+
+### Login
+![Login](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/33c979bc-ec7f-43f5-9712-c846b5bdbdef)
+
+### Questionnaire
+![Questionnaire](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/e5ff3d0c-97e4-45b1-953e-794786a59539)
+
+### PBAC Score
+<img width="229" alt="PBAC-score-test-q4" src="https://github.com/jaco5157/bitsxlaMarato/assets/74814020/fc9f45ef-6e30-4be7-a97a-1752e8b44888">
+<img width="228" alt="PBAC-score-testq3" src="https://github.com/jaco5157/bitsxlaMarato/assets/74814020/25de5068-6a90-48b8-a9dc-6e8af689e34e">
+
 ## Web Application for Classification of Menstrual Blood Loss 🩸
 Furthermore, we developed a simple web demo with using PyTorch and Streamlit to showcase an image classification model for menstrual blood loss.
 
@@ -23,10 +34,9 @@ Furthermore, we developed a simple web demo with using PyTorch and Streamlit to 
 
 ### Steps to Use the Application
 - Clone the repository onto your own local machine
+![repo](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/d4369ac8-e24a-4af9-afab-cfd68d01a17d)
 
-![image](https://user-images.githubusercontent.com/45563371/102073488-58953500-3e3e-11eb-9581-e16823f808fd.png)
-
-- Open command prompt/terminal in the cloned repository
+- Open command prompt/terminal in the cloned repository (WebApp folder)
 
 ![image](https://user-images.githubusercontent.com/45563371/102073585-7b274e00-3e3e-11eb-8656-a67df96b995a.png)
 
