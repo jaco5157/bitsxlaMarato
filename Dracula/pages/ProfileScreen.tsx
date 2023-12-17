@@ -27,11 +27,6 @@ const ProfileScreen = ({navigation, route}) => {
         lastCycle = userCycles.length > 0 ? userCycles[userCycles.length-1] : []
     }, [cycles]);
 
-
-  const handleClick = () => {
-      navigation.navigate('Question1');
-  };
-
   const endCycle = () => {
     userCycles[userCycles.length-1].push(new Date().toLocaleDateString('en-CA'))
     cycles[currentUserLC] = userCycles;
@@ -98,7 +93,7 @@ const ProfileScreen = ({navigation, route}) => {
                       <CustomText style={{fontFamily: "FiraSans-Light", textAlign: "center"}}>Did you know?</CustomText>
                       <CustomText style={{textAlign: "center"}}>Your menstrual cycle is a window into your <CustomText style={styles.highlight}>overall health</CustomText>.</CustomText>
                   </View>
-                  <Pressable style={{...styles.button, backgroundColor: colors.black, width: "100%"}} onPress={handleClick}>
+                  <Pressable style={{...styles.button, backgroundColor: colors.black, width: "100%"}} onPress={()=> navigation.navigate('Stats')}>
                     <CustomText style={{color: colors.white}}>Review your cycle history</CustomText>
                   </Pressable>
               </View>
