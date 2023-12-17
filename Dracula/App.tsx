@@ -14,6 +14,7 @@ import PBACTwoScreen from './pages/PBAC02Screen';
 import PBACThreeScreen from './pages/PBAC03Screen';
 import PBACFourScreen from './pages/PBAC04Screen';
 import PBACResultsScreen from './pages/PBACResultsScreen';
+import QuestionResultScreen from './pages/QuestionResultScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -73,7 +74,7 @@ const App = () => {
               component={PBACResultsScreen}
               options={{title: 'PBAC Score Results'}}
             />
-
+            <Stack.Screen name={`QuestionResultScreen`}component={QuestionResultScreen}/>
             {/*} QUESTIONNAIRE {*/}
             {questions.map((question, index) => (
               <Stack.Screen
