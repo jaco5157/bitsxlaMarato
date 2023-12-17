@@ -21,6 +21,8 @@ We developed a mobile application for period tracking and to answer the PBAC s
 ![Login](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/33c979bc-ec7f-43f5-9712-c846b5bdbdef)
 
 ### Period tracking
+![start cycle](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/334cef53-bfb1-41cf-92e1-d0d8dd6b70d4)
+![Cycle started](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/5d05d868-c068-46d8-aaa9-9f7d1d508db4)
 
 
 ### Questionnaire
