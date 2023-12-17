@@ -69,7 +69,9 @@ const QuestionScreen = ({ route, navigation }) => {
             answersQuestions[currentUserLC] = [...answersQuestions[currentUserLC], allAnswers]
         setAnswersQuestions(answersQuestions).then(() => {
             console.log('Submitted Answers:', answersQuestions[currentUserLC]);
+            navigation.navigate('QuestionResultScreen');
         })
+
       // Submit answers to the API using the collected answers
 
         //await setAnswersQuestions(allAnswers)
