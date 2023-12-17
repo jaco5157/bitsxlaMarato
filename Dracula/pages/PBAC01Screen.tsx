@@ -4,6 +4,7 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
+import { usePBACContext } from './PBACProvider';
 
     {/*
     SCORES
@@ -22,30 +23,48 @@ import Svg, {Path} from 'react-native-svg'
 const PBACOneScreen = ({ route, navigation }) => {
     const PBAC_question1 = ['Choose product type:'];
     const currentQuestionIndex = 1;
-    const [product, setProduct] = useState(null);
+    const [answer, setAnswer] = useState(null);
+    const { updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
-    console.log(product)
-    console.log('Action on index:', currentQuestionIndex, 'Product:', product);
-  }, [product]);
+    console.log(answer)
+    console.log('Action on index:', currentQuestionIndex, 'Product:', answer);
+  }, [answer]);
 
     // 1. Handle product type
     const handlePad = () => {
-        setProduct('pad');
-//         product = 'pad';
+//         setAnswer('pad');
+        updatePbacAnswers('pad');
     };
     const handleTampon = () => {
-        setProduct('tampon');
-//         product = 'tampon';
+        updatePbacAnswers('tampon');
+//         setAnswer('tampon');
     };
 
-    const submitScoreToApi = (product) => {
-        console.log('Product:', product);
+    const submitScoreToApi = (answer) => {
+        console.log('Product:', answer);
     };
 
+  useEffect( () => {
+    if (answer !== null) {
+        updatePbacAnswers(answer);
+//         updateCumulativeScore(1);
+        // Navigate to next page
+        navigation.push(`PBACTwoScreen`, {
+            pbacAnswers: [...pbacAnswers, answer],
+        });
+    }
+  }, [answer]);
 
-// //////////// CHANGE FROM HERE
+  const progressSvgPath = (i) => {
+      if (i < currentQuestionIndex)
+          return "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+      else if (i === currentQuestionIndex)
+          return "M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256-96a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"
+      else
+          return "M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"
+  }
 
      const customStyles = StyleSheet.create({
        header: {
@@ -146,6 +165,7 @@ const PBACOneScreen = ({ route, navigation }) => {
                  <View style={customStyles.questionsContainer}>
                      <CustomText style={{textAlign: "center"}}>{ PBAC_question1 }</CustomText>
                      <View style={customStyles.answers}>
+                         {/* PAD */}
                          <View style={{position: 'relative'}}>
                              <Pressable onPress={ () => {
                                 handlePad();
@@ -155,6 +175,7 @@ const PBACOneScreen = ({ route, navigation }) => {
                                  <CustomText style={{color: "white"}}> PAD </CustomText>
                              </Pressable>
                          </View>
+                         {/* TAMPON */}
                          <Pressable onPress={ () => {
                                  handleTampon();
                                  navigation.navigate('PBACTwoScreen');
@@ -163,7 +184,7 @@ const PBACOneScreen = ({ route, navigation }) => {
                          </Pressable>
                      </View>
                  </View>
-                 {/*
+                 {/* PROGRESS BAR */}
                  <View style={customStyles.progressBar}>
                      <View style={customStyles.line}></View>
                      {[...Array(4)].map((x, i) =>
@@ -172,7 +193,6 @@ const PBACOneScreen = ({ route, navigation }) => {
                          </Svg>
                        )}
                  </View>
-*/}
              </View>
            </View>
        </View>

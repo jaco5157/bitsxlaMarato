@@ -5,68 +5,134 @@ import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
 
+import { usePBACContext } from './PBACProvider';
+
 const PBACResultsScreen = ({ route, navigation }) => {
-    const { pbacAnswers, cumulativeScore } = route.params;
+    const { pbacAnswers, cumulativeScore } = usePBACContext();
 
-  useEffect(() => {
-    // This effect runs whenever 'answer' changes
-    console.log('Answers:', pbacAnswers, 'Cumulative score:', cumulativeScore);
-  }, [pbacAnswers, cumulativeScore]);
+    useEffect(() => {
+        // This effect runs whenever 'answer' changes
+        console.log('Answers:', pbacAnswers, 'Cumulative score:', cumulativeScore);
+    }, []);
 
-// //////////// CHANGE FROM HERE
+     const customStyles = StyleSheet.create({
+       header: {
+           flexDirection: "row",
+           alignItems: "center",
+           display: "flex",
+           justifyContent: "space-between",
+           paddingLeft: 10,
+           paddingTop: 5,
+           width: "100%"
+       },
+       container: {
+         position: "relative",
+         backgroundColor: colors.white,
+         height: "100%",
+         width: "100%",
+         color: colors.black,
+         display: "flex",
+         alignItems: "center",
+         flexDirection: "column",
+         paddingTop: 110,
+         gap: 10
+       },
+       actions: {
+           display: "flex",
+           justifyContent: "space-between",
+           alignItems: "center",
+           flexDirection: "column",
+           width: "75%",
+           height: "80%",
+       },
+       questionsContainer: {
+         display: "flex",
+         flexDirection: "column",
+         gap: 20,
+         flexGrow: 1,
+         justifyContent: "center",
+         paddingBottom: 50
+       },
+       answers: {
+         display: "flex",
+         flexDirection: "row",
+         gap: 20,
+         width: "100%",
+         justifyContent:"space-around",
+       },
+       answer: {
+         borderRadius: 50,
+         color: "white",
+         width: 60,
+         height: 60,
+         display: "flex",
+         justifyContent: "center",
+         alignItems: "center",
+       },
+       bloodDrop: {
+         position: 'absolute',
+         bottom: -35,
+         left: -6,
+         width: 70,
+         height: 70
+       },
+       progressBar: {
+         display: "flex",
+         flexDirection: "row",
+         justifyContent: "space-between",
+         alignItems: "center",
+         width: "100%",
+         position: "relative"
+       },
+       line: {
+         width: "100%",
+         backgroundColor: colors.primary,
+         height: 2,
+         position: "absolute",
+       },
+       step: {
+         width: 16,
+         height: 16,
+         fill: colors.primary,
+         backgroundColor: colors.white,
+         zIndex: 1,
+       }
+     })
 
+   return (
+     <View style={styles.body}>
+       <View style={styles.mainContainer}>
+           <View style={customStyles.header}>
+               <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
+               <CustomText style={{paddingRight: 10}}> Hola Paola! </CustomText>
+           </View>
+           <View style={customStyles.container}>
+             <TopWave/>
+             <View style={customStyles.actions}>
+                 <View style={customStyles.questionsContainer}>
+                     <CustomText style={{textAlign: "center"}}>{ PBAC_question4 }</CustomText>
 
-const customStyles = StyleSheet.create({
-    container: {
-        flexDirection: "column",
-        alignItems: "center",
-        display: "flex",
-        justifyContent: "center",
-        height: "90%",
-    },
-    actions: {
-        display: "flex",
-        flexDirection: "row",
-        gap: 20,
-        marginTop: 30
-    },
-    title: {
-        color: colors.black,
-        fontFamily: "Kalnia-Regular",
-        fontSize: 40,
-    },
-    loginButton: {
-        backgroundColor: colors.white,
-        width: "35%"
-    },
-    registerButton: {
-        borderWidth: 3,
-        borderColor: colors.white,
-        width: "35%"
-    }
-})
+                     {/* RESULTS TABLE */}
+                      <Text>PBAC Answers: {JSON.stringify(pbacAnswers)}</Text>
+{/*                       <Text>Cumulative Score: {cumulativeScore}</Text> */}
 
-  return (
-    <View style={styles.body}>
-        <View style={styles.mainContainer}>
-            <View style={customStyles.container}>
-                <Text style={customStyles.title}>DRACULA</Text>
-                <Image source={require('./../assets/logo.png')} style={styles.logo}/>
-                <View style={customStyles.actions}>
-                    <Text style={customStyles.title}> Product: pbacAnswers(0) </Text>
-                    <Text style={customStyles.title}> Amount of blood: pbacAnswers(1) </Text>
-                    <Text style={customStyles.title}> Presence of blood clots: pbacAnswers(2)  </Text>
-                    <Text style={customStyles.title}> Flooding: pbacAnswers(3) </Text>
-                    <Text style={customStyles.title}> Cumulative score: cumulativeScore </Text>
-                    <Pressable style={{...styles.button, ...customStyles.loginButton}} onPress={() =>navigation.navigate('HomeScreen')}>
-                        <CustomText style={{color: colors.black, fontFamily: "FiraSans-Medium"}}> RETURN TO HOMEPAGE </CustomText>
-                    </Pressable>
-                </View>
-            </View>
-        </View>
-    </View>
-  );
-
-};
+                     <View style={customStyles.answers}>
+                         {/* RETURN BUTTON */}
+                         <View style={{position: 'relative'}}>
+                             <Pressable onPress={ () => {
+                                navigation.navigate('Login');
+                             }} style={{...customStyles.answer, backgroundColor: colors.primary}}>
+                                 <Image source={require('./../assets/blood-drop.png')} style={customStyles.bloodDrop}/>
+                                 <CustomText style={{color: "white"}}> RETURN </CustomText>
+                             </Pressable>
+                         </View>
+                     </View>
+                 </View>
+             </View>
+           </View>
+       </View>
+     </View>
+    );
+ };
 
 export default PBACResultsScreen;

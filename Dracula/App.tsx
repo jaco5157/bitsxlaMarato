@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './pages/Styles';
 import questions from './pages/Questions';
+import { PBACProvider } from './pages/PBACProvider';
 
 import HomeScreen from './pages/HomeScreen';
 import LoginScreen from './pages/LoginScreen';
@@ -12,6 +13,7 @@ import PBACOneScreen from './pages/PBAC01Screen';
 import PBACTwoScreen from './pages/PBAC02Screen';
 import PBACThreeScreen from './pages/PBAC03Screen';
 import PBACFourScreen from './pages/PBAC04Screen';
+import PBACResultsScreen from './pages/PBACResultsScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -31,10 +33,10 @@ import {useStorage} from './hooks/useStorage'
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-
-  return (
-    <NavigationContainer>
-        <Stack.Navigator>
+    return (
+    <PBACProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
             <Stack.Screen
               name="Home"
               component={HomeScreen}
@@ -44,11 +46,35 @@ const App = () => {
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
-            <Stack.Screen name="PBACOneScreen" component={PBACOneScreen} />
-            <Stack.Screen name="PBACTwoScreen" component={PBACTwoScreen} initialParams={cumulativeScore = 0} />
-            <Stack.Screen name="PBACThreeScreen" component={PBACThreeScreen} initialParams={cumulativeScore} />
-            <Stack.Screen name="PBACFourScreen" component={PBACFourScreen} initialParams={cumulativeScore} />
 
+            {/*} PBAC SCORE {*/}
+            <Stack.Screen
+              name={`PBACOneScreen`}
+              component={PBACOneScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACTwoScreen`}
+              component={PBACTwoScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACThreeScreen`}
+              component={PBACThreeScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACFourScreen`}
+              component={PBACFourScreen}
+              options={{title: 'PBAC Score Test'}}
+            />
+            <Stack.Screen
+              name={`PBACResultsScreen`}
+              component={PBACResultsScreen}
+              options={{title: 'PBAC Score Results'}}
+            />
+
+            {/*} QUESTIONNAIRE {*/}
             {questions.map((question, index) => (
               <Stack.Screen
                 key={index}
@@ -61,9 +87,11 @@ const App = () => {
                   currentQuestionIndex: index,
                 }}/>
             ))}
-        </Stack.Navigator>
-    </NavigationContainer>
-  );
+
+          </Stack.Navigator>
+        </NavigationContainer>
+    </PBACProvider>
+    );
 };
 
 export default App;
