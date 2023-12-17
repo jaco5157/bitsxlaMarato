@@ -99,6 +99,8 @@ const PBACResultsScreen = ({ route, navigation }) => {
        }
      })
 
+
+
    return (
      <View style={styles.body}>
        <View style={styles.mainContainer}>
@@ -110,22 +112,13 @@ const PBACResultsScreen = ({ route, navigation }) => {
              <TopWave/>
              <View style={customStyles.actions}>
                  <View style={customStyles.questionsContainer}>
-                     <CustomText style={{textAlign: "center"}}>{ PBAC_question4 }</CustomText>
-
-                     {/* RESULTS TABLE */}
-                      <Text>PBAC Answers: {JSON.stringify(pbacAnswers)}</Text>
-{/*                       <Text>Cumulative Score: {cumulativeScore}</Text> */}
-
+                     <CustomText style={{textAlign: "center"}}>{ cumulativeScore }</CustomText>
                      <View style={customStyles.answers}>
-                         {/* RETURN BUTTON */}
-                         <View style={{position: 'relative'}}>
-                             <Pressable onPress={ () => {
-                                navigation.navigate('Login');
-                             }} style={{...customStyles.answer, backgroundColor: colors.primary}}>
-                                 <Image source={require('./../assets/blood-drop.png')} style={customStyles.bloodDrop}/>
-                                 <CustomText style={{color: "white"}}> RETURN </CustomText>
-                             </Pressable>
-                         </View>
+                         <Pressable onPress={ () => {
+                                 navigation.navigate('Home');
+                         }} style={{...customStyles.answer, backgroundColor: colors.black}}>
+                             <CustomText style={{color: "white"}}> BACK </CustomText>
+                         </Pressable>
                      </View>
                  </View>
              </View>
@@ -133,6 +126,7 @@ const PBACResultsScreen = ({ route, navigation }) => {
        </View>
      </View>
     );
+
  };
 
 export default PBACResultsScreen;

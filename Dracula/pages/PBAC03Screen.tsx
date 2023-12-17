@@ -23,15 +23,19 @@ import { usePBACContext } from './PBACProvider';
 const PBACThreeScreen = ({ route, navigation }) => {
     const PBAC_question3 = ['Did you have any blood clots, and if so, what size?'];
     const currentQuestionIndex = 3;
-    const [answer, setAnswer] = useState(null);
-    const { updatePbacAnswers, updateCumulativeScore } = usePBACContext();
+//     const [answer, setAnswer] = useState([]);
+    const { pbacAnswers, cumulativeScore, updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
-    console.log('Action on index:', currentQuestionIndex, 'Cumulative score:', cumulativeScore);
+    console.log('Action on index:', currentQuestionIndex, 'Cumulative score:', cumulativeScore, 'Answers:', pbacAnswers);
   }, [cumulativeScore]);
 
     // 3. Handle clots
+    const handleClot0 = () => {
+//         setAnswer(1);
+        updatePbacAnswers(0);
+    }
     const handleClot1p = () => {
 //         setAnswer(1);
         updatePbacAnswers(1);
@@ -47,15 +51,15 @@ const PBACThreeScreen = ({ route, navigation }) => {
         console.log('Cumulative score:', cumulativeScore);
     };
 
-  useEffect(() => {
-    if (answer !== null) {
-        // Navigate to next page
-        navigation.push(`PBACFourScreen`, {
-            pbacAnswers: [...pbacAnswers, answer],
-            cumulativeScore: cumulativeScore + answer,
-        });
-    }
-  }, [answer]);
+//   useEffect(() => {
+//     if (answer !== null) {
+//         // Navigate to next page
+//         navigation.push(`PBACFourScreen`, {
+//             pbacAnswers: [...pbacAnswers, answer],
+//             cumulativeScore: cumulativeScore + answer,
+//         });
+//     }
+//   }, [answer]);
 
   const progressSvgPath = (i) => {
       if (i < currentQuestionIndex)
@@ -165,14 +169,14 @@ const PBACThreeScreen = ({ route, navigation }) => {
                  <View style={customStyles.questionsContainer}>
                      <CustomText style={{textAlign: "center"}}>{ PBAC_question3 }</CustomText>
                      <View style={customStyles.answers}>
-                         {/* NO BLOOD CLOT */}
+                         {/* 1p BLOOD CLOT */}
                          <Pressable onPress={ () => {
                                  handleClot1p();
                                  navigation.navigate('PBACFourScreen');
                          }} style={{...customStyles.answer, backgroundColor: colors.black}}>
                              <CustomText style={{color: "white"}}> NONE </CustomText>
                          </Pressable>
-                         {/* 1p BLOOD CLOT */}
+                         {/* 50p BLOOD CLOT */}
                          <View style={{position: 'relative'}}>
                              <Pressable onPress={ () => {
                                 handleClot50p();
@@ -182,9 +186,10 @@ const PBACThreeScreen = ({ route, navigation }) => {
                                  <CustomText style={{color: "white"}}> SMALL </CustomText>
                              </Pressable>
                          </View>
-                         {/* 50p BLOOD CLOT */}
+                         {/* NO BLOOD CLOT */}
                          <View style={{position: 'relative'}}>
                              <Pressable onPress={ () => {
+                                handleClot1p();
                                 navigation.navigate('PBACFourScreen');
                              }} style={{...customStyles.answer, backgroundColor: colors.primary}}>
                                  <Image source={require('./../assets/blood-drop.png')} style={customStyles.bloodDrop}/>

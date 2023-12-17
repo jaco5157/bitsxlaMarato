@@ -23,15 +23,15 @@ import { usePBACContext } from './PBACProvider';
 const PBACTwoScreen = ({ route, navigation }) => {
     const PBAC_question2 = ['What is the blood intensity?'];
     const currentQuestionIndex = 2;
-    const [ answer, setAnswer ] = useState(null);
-    const { updatePbacAnswers, updateCumulativeScore } = usePBACContext();
+//     const [ answer, setAnswer ] = useState([]);
+    const { pbacAnswers, cumulativeScore, updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
   useEffect( () => {
     // This effect runs whenever 'answer' changes
-    console.log('Action on index:', currentQuestionIndex, 'Cumulative score:', cumulativeScore);
+    console.log('Action on index:', currentQuestionIndex, 'Cumulative score:', cumulativeScore, 'Answers:', pbacAnswers);
   }, [cumulativeScore]);
 
-    // 2. Handle blood intensity
+    // 2. Handle blood intensityRr
     const handleLow = () => {
 //         setAnswer(1);
         updatePbacAnswers(1);
@@ -58,15 +58,15 @@ const PBACTwoScreen = ({ route, navigation }) => {
         console.log('Cumulative score:', cumulativeScore);
     };
 
-  useEffect(() => {
-    if (answer !== null) {
-        // Navigate to next page
-        navigation.push(`PBACThreeScreen`, {
-            pbacAnswers: [...pbacAnswers, answer],
-            cumulativeScore: cumulativeScore + answer,
-        });
-    }
-  }, [answer]);
+//   useEffect(() => {
+//     if (answer !== null) {
+//         // Navigate to next page
+//         navigation.push(`PBACThreeScreen`, {
+//             pbacAnswers: [...pbacAnswers, answer],
+//             cumulativeScore: cumulativeScore + answer,
+//         });
+//     }
+//   }, []);
 
   const progressSvgPath = (i) => {
       if (i < currentQuestionIndex)

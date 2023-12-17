@@ -23,39 +23,35 @@ import { usePBACContext } from './PBACProvider';
 const PBACOneScreen = ({ route, navigation }) => {
     const PBAC_question1 = ['Choose product type:'];
     const currentQuestionIndex = 1;
-    const [answer, setAnswer] = useState(null);
-    const { updatePbacAnswers, updateCumulativeScore } = usePBACContext();
+//     const [answer, setAnswer] = useState([]);
+    const { pbacAnswers, cumulativeScore, updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
   useEffect(() => {
     // This effect runs whenever 'answer' changes
-    console.log(answer)
-    console.log('Action on index:', currentQuestionIndex, 'Product:', answer);
-  }, [answer]);
+    console.log('Action on index:', currentQuestionIndex, 'Answers:', pbacAnswers);
+  }, []);
 
     // 1. Handle product type
     const handlePad = () => {
-//         setAnswer('pad');
         updatePbacAnswers('pad');
     };
     const handleTampon = () => {
         updatePbacAnswers('tampon');
-//         setAnswer('tampon');
     };
 
-    const submitScoreToApi = (answer) => {
-        console.log('Product:', answer);
-    };
+//     const submitScoreToApi = (answer) => {
+//         console.log('Product:', answer);
+//     };
 
-  useEffect( () => {
-    if (answer !== null) {
-        updatePbacAnswers(answer);
-//         updateCumulativeScore(1);
-        // Navigate to next page
-        navigation.push(`PBACTwoScreen`, {
-            pbacAnswers: [...pbacAnswers, answer],
-        });
-    }
-  }, [answer]);
+//   useEffect( () => {
+//     if (answer !== null) {
+// //         updatePbacAnswers(answer);
+//         // Navigate to next page
+//         navigation.push(`PBACTwoScreen`, {
+// //             pbacAnswers: [...pbacAnswers, answer],
+//         });
+//     }
+//   }, [answer]);
 
   const progressSvgPath = (i) => {
       if (i < currentQuestionIndex)

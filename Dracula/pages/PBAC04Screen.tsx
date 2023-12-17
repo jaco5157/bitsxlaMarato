@@ -23,15 +23,19 @@ import { usePBACContext } from './PBACProvider';
 const PBACFourScreen = ({ route, navigation }) => {
     const PBAC_question4 = ['Did you have any blood flooding?'];
     const currentQuestionIndex = 4;
-    const [answer, setAnswer ] = useState(null);
-    const { updatePbacAnswers, updateCumulativeScore } = usePBACContext();
+//     const [answer, setAnswer ] = useState([]);
+    const { pbacAnswers, cumulativeScore, updatePbacAnswers, updateCumulativeScore } = usePBACContext();
 
     useEffect( () => {
     // This effect runs whenever 'answer' changes
-    console.log('Action on index:', currentQuestionIndex, 'Cumulative score:', cumulativeScore);
+    console.log('Action on index:', currentQuestionIndex, 'Cumulative score:', cumulativeScore, 'Answers:', pbacAnswers);
     }, [cumulativeScore]);
 
     // 4. Flooding
+    const handleFlooding0 = () => {
+//         setAnswer(5);
+        updatePbacAnswers(0);
+        }
     const handleFlooding = () => {
 //         setAnswer(5);
         updatePbacAnswers(5);
@@ -42,15 +46,15 @@ const PBACFourScreen = ({ route, navigation }) => {
         console.log('Cumulative score:', cumulativeScore);
     };
 
-  useEffect(() => {
-    if (answer !== null) {
-        // Navigate to next page
-        navigation.push(`ResultsScreen`, {
-            pbacAnswers: [...pbacAnswers, answer],
-            cumulativeScore: cumulativeScore + answer
-        });
-    }
-  }, [answer]);
+//   useEffect(() => {
+//     if (answer !== null) {
+//         // Navigate to next page
+//         navigation.push(`ResultsScreen`, {
+//             pbacAnswers: [...pbacAnswers, answer],
+//             cumulativeScore: cumulativeScore + answer
+//         });
+//     }
+//   }, [answer]);
 
   const progressSvgPath = (i) => {
       if (i < currentQuestionIndex)
@@ -173,6 +177,7 @@ const PBACFourScreen = ({ route, navigation }) => {
                          </View>
                          {/* NONE */}
                          <Pressable onPress={ () => {
+                                 handleFlooding0();
                                  navigation.navigate('PBACResultsScreen');
                          }} style={{...customStyles.answer, backgroundColor: colors.black}}>
                              <CustomText style={{color: "white"}}> NO </CustomText>
