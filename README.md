@@ -42,15 +42,14 @@ A simple web demo with minimal framework using PyTorch and Streamlit to showcase
 
 ![input_example](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/956b7972-abac-4664-8adb-5cf8312816de)
 
-![image](https://user-images.githubusercontent.com/45563371/102074070-289a6180-3e3f-11eb-8876-75ea60068ff2.png)
-
 - Now just wait for the results. The predictions should be outputted from highest probability to lowest probability.
 
-![image](https://user-images.githubusercontent.com/45563371/102074131-44056c80-3e3f-11eb-8d7d-093e6a5eed1d.png)
+![input_prediction](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/549938e1-f889-47ff-84b8-c95def82091c)
 
 ### Model Used
-#### VGG- 16
-ResNet-101 is a convolutional neural network that is 101 layers deep. You can load a pretrained version of the network trained on more than a million images from the ImageNet database. The pretrained network can classify images into 1000 object categories, such as keyboard, mouse, pencil, and many animals.
+We use VGG-16, a pre-trained network, since our dataset is small and artificial.
+#### VGG-16
+VGG-16 is a convolutional neural network that is 101 layers deep. You can load a pretrained version of the network trained on more than a million images from the ImageNet database. The pretrained network can classify images into 1000 object categories, such as keyboard, mouse, pencil, and many animals.
 
 ### Installation
 ```
@@ -58,6 +57,6 @@ pip install -r requirements.txt
 ```
 
 ### Code and Resources Used
-- Python: Version 3.7.4
-- Packages: PIL, torchvision, torch, streamlit
+- Python: Version 3.11.4
+- Main Packages: PIL, torchvision, torch, streamlit
 
