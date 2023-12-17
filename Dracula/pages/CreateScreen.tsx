@@ -4,13 +4,22 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import BottomWave from '../components/BottomWave'
 import CustomText from '../components/CustomText'
+import {useStorage, clearStorage} from '../hooks/useStorage'
+import { CommonActions } from '@react-navigation/native';
+
 
 const CreateScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [currentUser, setCurrentUser] = useStorage('DRACULA@current-user');
 
-  const handleCreate = () => {
-    navigation.navigate('Profile', { username });
+  const handleCreate = async () => {
+    if (!username) return;
+    if (currentUser !== username)
+        await clearStorage();
+
+    await setCurrentUser(username);
+    navigation.dispatch(CommonActions.reset({routes: [{ name: 'Profile'}]}))
   };
 
   const customStyles = StyleSheet.create({

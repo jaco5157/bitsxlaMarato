@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
 import styles, {colors} from './Styles';
 import CustomText from '../components/CustomText'
+import {clearStorage} from '../hooks/useStorage'
 
 const customStyles = StyleSheet.create({
     container: {
@@ -34,6 +35,13 @@ const customStyles = StyleSheet.create({
 })
 
 const HomeScreen = ({navigation}) => {
+    const [reset, setReset] = useState(false)
+
+    const clear = () => {
+        clearStorage()
+        setReset(true)
+    }
+
   return (
     <View style={styles.body}>
         <View style={styles.mainContainer}>
@@ -52,6 +60,12 @@ const HomeScreen = ({navigation}) => {
                         <CustomText style={{color: colors.white, fontFamily: "FiraSans-Medium"}}>TEST</CustomText>
                     </Pressable>*/}
                 </View>
+                {reset ? (<></>) : (
+                    <Pressable style={{...styles.button, ...customStyles.registerButton, width: 150, marginTop: 10}} onPress={() => clear()}>
+                        <CustomText style={{color: colors.white, fontFamily: "FiraSans-Medium"}}>RESET</CustomText>
+                    </Pressable>
+                )}
+
             </View>
         </View>
     </View>

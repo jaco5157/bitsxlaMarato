@@ -1,41 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, Pressable, TouchableWithoutFeedback } from 'react-native';
 import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
 import {useStorage} from '../hooks/useStorage'
+import { CommonActions } from '@react-navigation/native';
+import Header from '../components/Header'
 
 
 const ProfileScreen = ({navigation, route}) => {
+  const [currentUser] = useStorage('DRACULA@current-user', '')
+  const [cycles, setCycles, refreshCycles] = useStorage('DRACULA@cycles', {})
+
+    const currentUserLC = currentUser.toLowerCase();
+    let userCycles = cycles[currentUserLC] || []
+    let lastCycle = userCycles.length > 0 ? userCycles[userCycles.length-1] : []
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => refreshCycles());
+        return unsubscribe;
+      }, [navigation]);
+
+    useEffect(() => {
+        userCycles = cycles[currentUserLC] || []
+        lastCycle = userCycles.length > 0 ? userCycles[userCycles.length-1] : []
+    }, [cycles]);
+
+
   const handleClick = () => {
       navigation.navigate('Question1');
   };
 
-  const [currentUser, setCurrentUser, retrievedFromStorage] = useStorage({
-    key: 'DRACULA:current-user',
-    initialValue: '',
-  });
-
-  useEffect(() => console.log(currentUser), [retrievedFromStorage])
+  const endCycle = () => {
+    userCycles[userCycles.length-1].push(new Date().toLocaleDateString('en-CA'))
+    cycles[currentUserLC] = userCycles;
+    setCycles(cycles)
+    navigation.navigate("Question1")
+  }
 
   const customStyles = StyleSheet.create({
-        header: {
-            flexDirection: "row",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "space-between",
-            paddingLeft: 10,
-            paddingTop: 5,
-            width: "100%"
-        },
-        headerLeft: {
-            flexDirection: "row",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "center",
-            gap: 20
-        },
         container: {
           position: "relative",
           backgroundColor: colors.white,
@@ -60,25 +64,37 @@ const ProfileScreen = ({navigation, route}) => {
     return (
       <View style={styles.body}>
         <View style={styles.mainContainer}>
-            <View style={customStyles.header}>
-              <View style={customStyles.headerLeft}>
-                  <Svg height="16" width="14" viewBox="0 0 448 512">
-                      <Path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
-                  </Svg>
-                <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
-              </View>
-            </View>
+            <Header/>
             <View style={customStyles.container}>
               <TopWave/>
               <View style={customStyles.actions}>
-                  <View>
-                      <CustomText style={{textAlign: "center"}}>Hey <CustomText style={styles.highlight}>{retrievedFromStorage}</CustomText>!</CustomText>
-                      <CustomText style={{fontFamily: "FiraSans-Light", textAlign: "center"}}>Ready to get to know your cycle better?</CustomText>
-                  </View>
-                  <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%", paddingTop: 25, paddingBottom: 25}} onPress={() => navigation.navigate("Calendar")}>
-                    <CustomText style={{color: colors.white}}>My period has started</CustomText>
-                  </Pressable>
-                  <View  style={{marginTop: 50}}>
+
+                  {lastCycle.length === 1 ? (
+                    <>
+                        <View>
+                          <CustomText style={{textAlign: "center"}}>Hey <CustomText style={styles.highlight}>{currentUser}</CustomText>!</CustomText>
+                          <CustomText style={{fontFamily: "FiraSans-Light", textAlign: "center"}}>Your cycle has started last <CustomText>{new Date(lastCycle[0]).toDateString()}</CustomText></CustomText>
+                      </View>
+                      <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%", paddingTop: 25, paddingBottom: 25}} onPress={() => endCycle()}>
+                          <CustomText style={{color: colors.white}}>Add a sanitory product used</CustomText>
+                        </Pressable>
+                      <Pressable style={{...styles.button, backgroundColor: colors.white, borderColor: colors.primary, borderWidth: 3, width: "100%"}} onPress={() => endCycle()}>
+                        <CustomText style={{color: colors.primary}}>My cycle has now ended</CustomText>
+                      </Pressable>
+                    </>
+                  ) : (
+                  <>
+                        <View>
+                          <CustomText style={{textAlign: "center"}}>Hey <CustomText style={styles.highlight}>{currentUser}</CustomText>!</CustomText>
+                          <CustomText style={{fontFamily: "FiraSans-Light", textAlign: "center"}}>Ready to get to know your cycle better?</CustomText>
+                      </View>
+                        <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%", paddingTop: 25, paddingBottom: 25}} onPress={() => navigation.navigate("Calendar")}>
+                          <CustomText style={{color: colors.white}}>My cycle has started</CustomText>
+                        </Pressable>
+                    </>
+                  )}
+
+                  <View  style={{marginTop: 30}}>
                       <CustomText style={{fontFamily: "FiraSans-Light", textAlign: "center"}}>Did you know?</CustomText>
                       <CustomText style={{textAlign: "center"}}>Your menstrual cycle is a window into your <CustomText style={styles.highlight}>overall health</CustomText>.</CustomText>
                   </View>

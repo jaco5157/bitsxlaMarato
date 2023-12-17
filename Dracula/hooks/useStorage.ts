@@ -1,31 +1,23 @@
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-interface IUseAsyncStorage {
-  key?: string
-  initialValue?: unknown
-}
-
-export const useStorage = ({ key, initialValue }: IUseAsyncStorage) => {
+export const useStorage = (key: string, initialValue?: unknown = null) => {
   const [data, setData] = useState(initialValue)
-  const [retrievedFromStorage, setRetrievedFromStorage] = useState(false)
+  const [timestamp, setTimestamp] = useState((new Date()).getTime())
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const value = await AsyncStorage.getItem(key as string)
-        if (!value) {
-          return
-        }
+        if (!value) return
         setData(JSON.parse(value) || initialValue)
-        setRetrievedFromStorage(true)
       } catch (error) {
         console.error(`useAsyncStorage getItem ${key} error:`, error)
       }
     }
 
     fetchData()
-  }, [key, initialValue])
+  }, [key, timestamp])
 
   const setNewData = async (value: unknown) => {
     try {
@@ -36,27 +28,17 @@ export const useStorage = ({ key, initialValue }: IUseAsyncStorage) => {
     }
   }
 
-  const removeData = async () => {
-    try {
-      await AsyncStorage.removeItem(key as string)
-    } catch (error) {
-      console.error(`useAsyncStorage removeItem ${key} error:`, error)
-    }
+  const refresh = () => {
+    setTimestamp((new Date()).getTime())
   }
 
-  const clearData = async () => {
-    try {
-      await AsyncStorage.clear()
-    } catch (error) {
-      console.error(`useAsyncStorage clear error:`, error)
-    }
-  }
+    return [data, setNewData, refresh]
+}
 
-  if (key !== undefined && initialValue !== undefined) {
-    return [data, setNewData, retrievedFromStorage]
-  } else if (key !== undefined) {
-    return [removeData, clearData]
-  } else {
-    return [clearData]
-  }
+export const clearStorage = async () => {
+    try {
+        await AsyncStorage.clear();
+    } catch (error) {
+       console.error(`useAsyncStorage clear error:`, error)
+     }
 }

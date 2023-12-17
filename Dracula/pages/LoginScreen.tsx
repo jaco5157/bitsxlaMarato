@@ -5,15 +5,16 @@ import TopWave from '../components/TopWave'
 import BottomWave from '../components/BottomWave'
 import CustomText from '../components/CustomText'
 import {useStorage} from '../hooks/useStorage'
+import { CommonActions } from '@react-navigation/native';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
-    const [currentUser, setCurrentUser, retrievedFromStorage] = useStorage({key: 'DRACULA:current-user'});
+  const [currentUser, setCurrentUser] = useStorage('DRACULA@current-user');
 
   const handleLogin = async () => {
     if (!username) return;
     await setCurrentUser(username);
-    navigation.navigate('Profile');
+    navigation.dispatch(CommonActions.reset({routes: [{ name: 'Profile'}]}))
   };
 
   const customStyles = StyleSheet.create({

@@ -5,28 +5,90 @@ import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
 import {Calendar} from "react-native-calendars"
+import {useStorage} from '../hooks/useStorage'
+import Header from '../components/Header'
 
 
 const CalendarScreen = ({navigation}) => {
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA'));
+
+     const [currentUser] = useStorage('DRACULA@current-user', '')
+     const [cycles, setCycles, refreshCycles] = useStorage('DRACULA@cycles', {})
+     const currentUserLC = currentUser.toLowerCase();
+
+     let userCycles = cycles[currentUserLC] || []
+     let lastCycle = userCycles.length > 0 ? userCycles[userCycles.length-1] : []
+     if (lastCycle.length === 1) navigation.navigate('Profile')
+
+     useEffect(() => {
+         const unsubscribe = navigation.addListener('focus', () => refreshCycles());
+         return unsubscribe;
+       }, [navigation]);
+
+     useEffect(() => {
+         userCycles = cycles[currentUserLC] || []
+         lastCycle = userCycles.length > 0 ? userCycles[userCycles.length-1] : []
+     }, [cycles]);
+
+
+    const confirmDate = () => {
+        userCycles.push([selectedDate])
+        cycles[currentUserLC] = userCycles;
+        setCycles(cycles)
+        navigation.navigate("Profile")
+    }
+
+    function transformPeriodsToMarkedDates(periods) {
+
+        const fakePeriods = [
+            [new Date('2023-11-10'), new Date('2023-11-15')],
+            [new Date('2023-10-12'), new Date('2023-10-17')]
+        ];
+
+        periods = [...fakePeriods, ...periods];
+
+      const markedDates = {};
+
+      periods.forEach(([startDate, endDate]) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        // Loop through the days in the period
+        for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+          const formattedDate = date.toISOString().split('T')[0];
+
+          if (date.getTime() === start.getTime()) {
+            // If it's the starting day
+            markedDates[formattedDate] = {
+              selected: true,
+              startingDay: true,
+              color: colors.secondary,
+              disableTouchEvent: true
+            };
+          } else if (date.getTime() === end.getTime()) {
+            // If it's the ending day
+            markedDates[formattedDate] = {
+              selected: true,
+              endingDay: true,
+              color: colors.secondary,
+              disableTouchEvent: true
+            };
+          } else {
+            // If it's a middle day
+            markedDates[formattedDate] = {
+              selected: true,
+              color: colors.secondary,
+              disableTouchEvent: true
+            };
+          }
+        }
+      });
+
+      return markedDates;
+    }
+
 
     const customStyles = StyleSheet.create({
-        header: {
-            flexDirection: "row",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "space-between",
-            paddingLeft: 10,
-            paddingTop: 5,
-            width: "100%"
-        },
-        headerLeft: {
-            flexDirection: "row",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "center",
-            gap: 20
-        },
         container: {
           position: "relative",
           backgroundColor: colors.white,
@@ -51,14 +113,7 @@ const CalendarScreen = ({navigation}) => {
   return (
   <View style={styles.body}>
           <View style={styles.mainContainer}>
-              <View style={customStyles.header}>
-                <View style={customStyles.headerLeft}>
-                    <Svg height="16" width="14" viewBox="0 0 448 512">
-                        <Path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
-                    </Svg>
-                  <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
-                </View>
-              </View>
+              <Header/>
               <View style={customStyles.container}>
                 <TopWave/>
                 <View style={customStyles.actions}>
@@ -68,8 +123,11 @@ const CalendarScreen = ({navigation}) => {
                     <Calendar
                         value={selectedDate}
                         onDayPress={day => setSelectedDate(day.dateString)}
+                        maxDate={new Date().toLocaleDateString('en-CA')}
+                        markingType={'period'}
                         markedDates={{
-                            [selectedDate]: {selected: true}
+                            [selectedDate]: {selected: true, startingDay: true, endingDay:true, color: colors.primary},
+                            ...transformPeriodsToMarkedDates(userCycles)
                         }}
                         style={{
                             width: "100%"
@@ -93,7 +151,7 @@ const CalendarScreen = ({navigation}) => {
                       />
                       <View style={{marginTop: 20, width: "100%"}}>
                         <CustomText style={{...styles.highlight, textAlign: "center"}}>{new Date(selectedDate).toDateString()}</CustomText>
-                        <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%"}} onPress={() => navigation.navigate("Question1")}>
+                        <Pressable style={{...styles.button, backgroundColor: colors.primary, width: "100%"}} onPress={() => confirmDate()}>
                           <CustomText style={{color: colors.white}}>Confirm</CustomText>
                         </Pressable>
                       </View>

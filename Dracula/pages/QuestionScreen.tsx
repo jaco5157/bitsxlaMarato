@@ -5,12 +5,17 @@ import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
+import {useStorage} from '../hooks/useStorage'
+import Header from '../components/Header'
 
 
 const QuestionScreen = ({ route, navigation }) => {
   const { question, isLastQuestion, answers, currentQuestionIndex } = route.params;
   const [answer, setAnswer] = useState(null);
   const [expandedHeader, setExpandedHeader] = useState(false);
+  const [answersQuestions, setAnswersQuestions] = useStorage('DRACULA@answers-questions', {})
+  const [currentUser] = useStorage('DRACULA@current-user', '')
+
   const nextQuestionIndex = currentQuestionIndex + 1;
 
   const expandAnimation = useRef(new Animated.Value(0)).current;
@@ -42,7 +47,7 @@ const QuestionScreen = ({ route, navigation }) => {
 
         // Check if it's the last question
         if (isLastQuestion) {
-            submitAnswersToApi([...answers, answer]);
+            submitAnswersToApi([...answers, answer])
         } else {
         // If it's not the last question, navigate to the next question
             navigation.push(`Question${nextQuestionIndex+1}`, {
@@ -57,8 +62,17 @@ const QuestionScreen = ({ route, navigation }) => {
 
 
   const submitAnswersToApi = (allAnswers) => {
+        const currentUserLC = currentUser.toLowerCase()
+        if (answersQuestions[currentUserLC] === undefined)
+            answersQuestions[currentUserLC] = [allAnswers]
+        else
+            answersQuestions[currentUserLC] = [...answersQuestions[currentUserLC], allAnswers]
+        setAnswersQuestions(answersQuestions).then(() => {
+            console.log('Submitted Answers:', answersQuestions[currentUserLC]);
+        })
       // Submit answers to the API using the collected answers
-      console.log('Submitted Answers:', allAnswers);
+
+        //await setAnswersQuestions(allAnswers)
       // You may also navigate to another screen or perform other actions here
   };
 
@@ -73,22 +87,6 @@ const QuestionScreen = ({ route, navigation }) => {
 
 
     const customStyles = StyleSheet.create({
-      header: {
-          flexDirection: "row",
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "space-between",
-          paddingLeft: 10,
-          paddingTop: 5,
-          width: "100%"
-      },
-      headerLeft: {
-          flexDirection: "row",
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "center",
-          gap: 20
-      },
       container: {
         position: "relative",
         backgroundColor: colors.white,
@@ -168,21 +166,10 @@ const QuestionScreen = ({ route, navigation }) => {
       }
     })
 
-    const toggleHeader = () => setExpandedHeader(!expandedHeader)
-
   return (
     <View style={styles.body}>
       <View style={styles.mainContainer}>
-          <View style={customStyles.header}>
-            <View style={customStyles.headerLeft}>
-                <TouchableWithoutFeedback onPress={toggleHeader}>
-                    <Svg height="16" width="14" viewBox="0 0 448 512">
-                        <Path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
-                    </Svg>
-                </TouchableWithoutFeedback>
-              <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
-            </View>
-          </View>
+          <Header/>
           <Animated.View style={customStyles.container}>
             <TopWave/>
             <CustomText style={{color:colors.primary, fontFamily:"FiraSans-Bold", fontSize:22}}>End of cycle - CHECKUP</CustomText>
