@@ -40,7 +40,7 @@ A simple web demo with minimal framework using PyTorch and Streamlit to showcase
 
 - Click 'Browse files' and upload an image file in jpg, jpeg or png format
 
-![image](https://user-images.githubusercontent.com/45563371/102073949-056fb200-3e3f-11eb-9017-27bf13d3e88d.png)
+![input_example](https://github.com/jaco5157/bitsxlaMarato/assets/74814020/956b7972-abac-4664-8adb-5cf8312816de)
 
 ![image](https://user-images.githubusercontent.com/45563371/102074070-289a6180-3e3f-11eb-8876-75ea60068ff2.png)
 
