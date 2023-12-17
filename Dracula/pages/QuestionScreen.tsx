@@ -1,16 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Image, Pressable, TouchableWithoutFeedback, Animated } from 'react-native';
 import questions from './Questions';
 import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
 import Svg, {Path} from 'react-native-svg'
+import {useStorage} from '../hooks/useStorage'
+import Header from '../components/Header'
 
 
 const QuestionScreen = ({ route, navigation }) => {
   const { question, isLastQuestion, answers, currentQuestionIndex } = route.params;
   const [answer, setAnswer] = useState(null);
+  const [expandedHeader, setExpandedHeader] = useState(false);
+  const [answersQuestions, setAnswersQuestions] = useStorage('DRACULA@answers-questions', {})
+  const [currentUser] = useStorage('DRACULA@current-user', '')
+
   const nextQuestionIndex = currentQuestionIndex + 1;
+
+  const expandAnimation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(expandAnimation, {
+        toValue: expandedHeader ? 500 : 0,
+        duration: 500,
+        useNativeDriver: true
+    }).start()
+  }, [expandedHeader])
 
   useEffect(() => {
       // This effect runs whenever 'answer' changes
@@ -31,7 +47,7 @@ const QuestionScreen = ({ route, navigation }) => {
 
         // Check if it's the last question
         if (isLastQuestion) {
-            submitAnswersToApi([...answers, answer]);
+            submitAnswersToApi([...answers, answer])
         } else {
         // If it's not the last question, navigate to the next question
             navigation.push(`Question${nextQuestionIndex+1}`, {
@@ -44,9 +60,21 @@ const QuestionScreen = ({ route, navigation }) => {
     }
   }, [answer]);
 
+
   const submitAnswersToApi = (allAnswers) => {
+        const currentUserLC = currentUser.toLowerCase()
+        if (answersQuestions[currentUserLC] === undefined)
+            answersQuestions[currentUserLC] = [allAnswers]
+        else
+            answersQuestions[currentUserLC] = [...answersQuestions[currentUserLC], allAnswers]
+        setAnswersQuestions(answersQuestions).then(() => {
+            console.log('Submitted Answers:', answersQuestions[currentUserLC]);
+            navigation.navigate('QuestionResultScreen');
+        })
+
       // Submit answers to the API using the collected answers
-      console.log('Submitted Answers:', allAnswers);
+
+        //await setAnswersQuestions(allAnswers)
       // You may also navigate to another screen or perform other actions here
   };
 
@@ -61,15 +89,6 @@ const QuestionScreen = ({ route, navigation }) => {
 
 
     const customStyles = StyleSheet.create({
-      header: {
-          flexDirection: "row",
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "space-between",
-          paddingLeft: 10,
-          paddingTop: 5,
-          width: "100%"
-      },
       container: {
         position: "relative",
         backgroundColor: colors.white,
@@ -79,8 +98,13 @@ const QuestionScreen = ({ route, navigation }) => {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        paddingTop: 110,
-        gap: 10
+        paddingTop: 90,
+        gap: 10,
+        transform: [
+            {
+                translateY: expandAnimation
+            }
+        ]
       },
       actions: {
           display: "flex",
@@ -93,10 +117,10 @@ const QuestionScreen = ({ route, navigation }) => {
       questionsContainer: {
         display: "flex",
         flexDirection: "column",
-        gap: 20,
+        gap: 30,
         flexGrow: 1,
         justifyContent: "center",
-        paddingBottom: 50
+        paddingBottom: 100
       },
       answers: {
         display: "flex",
@@ -108,18 +132,18 @@ const QuestionScreen = ({ route, navigation }) => {
       answer: {
         borderRadius: 50,
         color: "white",
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       },
       bloodDrop: {
         position: 'absolute',
-        bottom: -35,
-        left: -6,
-        width: 70,
-        height: 70
+        bottom: -42,
+        left: -5,
+        width: 90,
+        height: 90
       },
       progressBar: {
         display: "flex",
@@ -147,15 +171,13 @@ const QuestionScreen = ({ route, navigation }) => {
   return (
     <View style={styles.body}>
       <View style={styles.mainContainer}>
-          <View style={customStyles.header}>
-              <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
-              <CustomText style={{paddingRight: 10}}>Hola Paola!</CustomText>
-          </View>
-          <View style={customStyles.container}>
+          <Header/>
+          <Animated.View style={customStyles.container}>
             <TopWave/>
+            <CustomText style={{color:colors.primary, fontFamily:"FiraSans-Bold", fontSize:22}}>End of cycle - CHECKUP</CustomText>
             <View style={customStyles.actions}>
                 <View style={customStyles.questionsContainer}>
-                    <CustomText style={{textAlign: "center"}}>{question}</CustomText>
+                    <CustomText style={{textAlign: "center", fontSize:20}}>{question}</CustomText>
                     <View style={customStyles.answers}>
                         <View style={{position: 'relative'}}>
                             <Pressable onPress={handleYes} style={{...customStyles.answer, backgroundColor: colors.primary}}>
@@ -171,16 +193,13 @@ const QuestionScreen = ({ route, navigation }) => {
                 <View style={customStyles.progressBar}>
                     <View style={customStyles.line}></View>
                     {[...Array(6)].map((x, i) =>
-                        <Svg style={customStyles.step} viewBox="0 0 512 512">
+                        <Svg key={'step'+i} style={customStyles.step} viewBox="0 0 512 512">
                             <Path d={progressSvgPath(i)}/>
                         </Svg>
                       )}
-
-
-
                 </View>
             </View>
-          </View>
+          </Animated.View>
       </View>
     </View>
    );

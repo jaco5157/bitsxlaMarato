@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
       outline: "none",
       border: "none",
       textTransform: "uppercase",
-      transition: "0.1s",
       cursor: "pointer",
       fontWeight: "500",
       display: "flex",
