@@ -9,6 +9,7 @@ import CreateScreen from './pages/CreateScreen';
 import ProfileScreen from './pages/ProfileScreen';
 import QuestionScreen from './pages/QuestionScreen';
 import CalendarScreen from './pages/CalendarScreen';
+import StatsScreen from './pages/StatsScreen';
 import PBACOneScreen from './pages/PBAC01Screen';
 import PBACTwoScreen from './pages/PBAC02Screen';
 import PBACThreeScreen from './pages/PBAC03Screen';
@@ -47,6 +48,7 @@ const App = () => {
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
+            <Stack.Screen name="Stats" component={StatsScreen} />
 
             {/*} PBAC SCORE {*/}
             <Stack.Screen

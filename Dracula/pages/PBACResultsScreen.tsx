@@ -3,17 +3,38 @@ import { View, Text, TextInput, Button, StyleSheet, Image, Pressable } from 'rea
 import styles, {colors} from './Styles';
 import TopWave from '../components/TopWave'
 import CustomText from '../components/CustomText'
+import Header from '../components/Header'
 import Svg, {Path} from 'react-native-svg'
+import {useStorage} from '../hooks/useStorage'
 
 import { usePBACContext } from './PBACProvider';
 
 const PBACResultsScreen = ({ route, navigation }) => {
-    const { pbacAnswers, cumulativeScore } = usePBACContext();
+    const { pbacAnswers, cumulativeScore, resetValues } = usePBACContext();
 
-    useEffect(() => {
-        // This effect runs whenever 'answer' changes
-        console.log('Answers:', pbacAnswers, 'Cumulative score:', cumulativeScore);
-    }, []);
+    const handleReset = () => {
+        resetValues();
+    }
+
+    const [PBAC, setPBAC, refreshPBAC] = useStorage('DRACULA@PBAC', {})
+    const [currentUser] = useStorage('DRACULA@current-user', '')
+
+
+    const answer = {
+       cumulativeScore: cumulativeScore,
+       answers: pbacAnswers
+   }
+
+    const currentUserLC = currentUser.toLowerCase()
+    if (PBAC[currentUserLC] === undefined)
+        PBAC[currentUserLC] = [answer]
+    else
+        PBAC[currentUserLC] = [...PBAC[currentUserLC], answer]
+
+//      setPBAC(PBAC).then(() => {
+//          console.log('Answers:', answers);
+//          console.log(PBAC[currentUserLC])
+//      })
 
      const customStyles = StyleSheet.create({
        header: {
@@ -25,6 +46,38 @@ const PBACResultsScreen = ({ route, navigation }) => {
            paddingTop: 5,
            width: "100%"
        },
+
+        headerText: {
+           fontSize: 20,
+           fontWeight: 'bold',
+        },
+        table: {
+           borderWidth: 1,
+           borderColor: '#000',
+           marginBottom: 16,
+        },
+        row: {
+           flexDirection: 'row',
+           borderBottomWidth: 1,
+           borderColor: '#000',
+        },
+        cellHeader: {
+           flex: 1,
+           padding: 8,
+           fontWeight: 'bold',
+        },
+        cell: {
+           flex: 1,
+           padding: 8,
+        },
+        footer: {
+           marginTop: 16,
+        },
+        footerText: {
+           fontSize: 18,
+           fontWeight: 'bold',
+        },
+
        container: {
          position: "relative",
          backgroundColor: colors.white,
@@ -34,7 +87,7 @@ const PBACResultsScreen = ({ route, navigation }) => {
          display: "flex",
          alignItems: "center",
          flexDirection: "column",
-         paddingTop: 110,
+         paddingTop: 90,
          gap: 10
        },
        actions: {
@@ -102,30 +155,46 @@ const PBACResultsScreen = ({ route, navigation }) => {
    return (
      <View style={styles.body}>
        <View style={styles.mainContainer}>
-           <View style={customStyles.header}>
-               <Image source={require('./../assets/logo.png')} style={{...styles.logo, width: 40, height: 40}}/>
-               <CustomText style={{paddingRight: 10}}> Hola Paola! </CustomText>
-           </View>
+           <Header/>
+
            <View style={customStyles.container}>
              <TopWave/>
+            <CustomText style={{color:colors.primary, fontFamily:"FiraSans-Bold", fontSize:22}}>PBAC Score</CustomText>
+
              <View style={customStyles.actions}>
                  <View style={customStyles.questionsContainer}>
-                     <CustomText style={{textAlign: "center"}}>{ PBAC_question4 }</CustomText>
-
                      {/* RESULTS TABLE */}
-                      <Text>PBAC Answers: {JSON.stringify(pbacAnswers)}</Text>
-{/*                       <Text>Cumulative Score: {cumulativeScore}</Text> */}
+                     <CustomText style={{textAlign: "center"}}>{ `PBAC Score: `, cumulativeScore }</CustomText>
 
+                          <View style={styles.container}>
+                            <View style={styles.header}>
+                              <Text style={styles.headerText}>Summary</Text>
+                            </View>
+                            <View style={styles.table}>
+                              <View style={styles.row}>
+                                <Text style={styles.cellHeader}> Choose product type: </Text>
+                                <Text style={styles.cellHeader}>Answer</Text>
+                              </View>
+                              {pbacAnswers.map((answer, index) => (
+                                <View key={index} style={styles.row}>
+                                  <Text style={styles.cell}>{`Question 1`}</Text>
+                                  <Text style={styles.cell}>{`Response`}</Text>
+                                </View>
+                              ))}
+                            </View>
+                            <View style={styles.footer}>
+                              <Text style={styles.footerText}>Cumulative Score: {cumulativeScore}</Text>
+                            </View>
+                          </View>
+
+                     {/* BACK BUTTON */}
                      <View style={customStyles.answers}>
-                         {/* RETURN BUTTON */}
-                         <View style={{position: 'relative'}}>
-                             <Pressable onPress={ () => {
-                                navigation.navigate('Login');
-                             }} style={{...customStyles.answer, backgroundColor: colors.primary}}>
-                                 <Image source={require('./../assets/blood-drop.png')} style={customStyles.bloodDrop}/>
-                                 <CustomText style={{color: "white"}}> RETURN </CustomText>
-                             </Pressable>
-                         </View>
+                         <Pressable onPress={ () => {
+                                 handleReset();
+                                 navigation.navigate('Home');
+                         }} style={{...customStyles.answer, backgroundColor: colors.black}}>
+                             <CustomText style={{color: "white"}}> BACK </CustomText>
+                         </Pressable>
                      </View>
                  </View>
              </View>
